@@ -1,0 +1,333 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		AE41FC671F6248BE00959ED0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AE41FC661F6248BE00959ED0 /* main.m */; };
+		AE41FC6A1F6248BE00959ED0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AE41FC691F6248BE00959ED0 /* AppDelegate.m */; };
+		AE41FC6D1F6248BE00959ED0 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE41FC6C1F6248BE00959ED0 /* ViewController.m */; };
+		AE41FC701F6248BE00959ED0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE41FC6E1F6248BE00959ED0 /* Main.storyboard */; };
+		AE41FC721F6248BE00959ED0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AE41FC711F6248BE00959ED0 /* Assets.xcassets */; };
+		AE41FC751F6248BE00959ED0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE41FC731F6248BE00959ED0 /* LaunchScreen.storyboard */; };
+		AE41FC7F1F6248CF00959ED0 /* RKOTopAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = AE41FC7E1F6248CF00959ED0 /* RKOTopAlert.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		AE41FC621F6248BE00959ED0 /* RKOTopAlert.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RKOTopAlert.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AE41FC661F6248BE00959ED0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		AE41FC681F6248BE00959ED0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		AE41FC691F6248BE00959ED0 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		AE41FC6B1F6248BE00959ED0 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		AE41FC6C1F6248BE00959ED0 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		AE41FC6F1F6248BE00959ED0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		AE41FC711F6248BE00959ED0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AE41FC741F6248BE00959ED0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		AE41FC761F6248BE00959ED0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AE41FC7D1F6248CF00959ED0 /* RKOTopAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKOTopAlert.h; sourceTree = "<group>"; };
+		AE41FC7E1F6248CF00959ED0 /* RKOTopAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKOTopAlert.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AE41FC5F1F6248BE00959ED0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		AE41FC591F6248BE00959ED0 = {
+			isa = PBXGroup;
+			children = (
+				AE41FC641F6248BE00959ED0 /* RKOTopAlert */,
+				AE41FC631F6248BE00959ED0 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		AE41FC631F6248BE00959ED0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AE41FC621F6248BE00959ED0 /* RKOTopAlert.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AE41FC641F6248BE00959ED0 /* RKOTopAlert */ = {
+			isa = PBXGroup;
+			children = (
+				AE41FC7C1F6248CF00959ED0 /* RKOTopAlert */,
+				AE41FC681F6248BE00959ED0 /* AppDelegate.h */,
+				AE41FC691F6248BE00959ED0 /* AppDelegate.m */,
+				AE41FC6B1F6248BE00959ED0 /* ViewController.h */,
+				AE41FC6C1F6248BE00959ED0 /* ViewController.m */,
+				AE41FC6E1F6248BE00959ED0 /* Main.storyboard */,
+				AE41FC711F6248BE00959ED0 /* Assets.xcassets */,
+				AE41FC731F6248BE00959ED0 /* LaunchScreen.storyboard */,
+				AE41FC761F6248BE00959ED0 /* Info.plist */,
+				AE41FC651F6248BE00959ED0 /* Supporting Files */,
+			);
+			path = RKOTopAlert;
+			sourceTree = "<group>";
+		};
+		AE41FC651F6248BE00959ED0 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				AE41FC661F6248BE00959ED0 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		AE41FC7C1F6248CF00959ED0 /* RKOTopAlert */ = {
+			isa = PBXGroup;
+			children = (
+				AE41FC7D1F6248CF00959ED0 /* RKOTopAlert.h */,
+				AE41FC7E1F6248CF00959ED0 /* RKOTopAlert.m */,
+			);
+			path = RKOTopAlert;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		AE41FC611F6248BE00959ED0 /* RKOTopAlert */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AE41FC791F6248BE00959ED0 /* Build configuration list for PBXNativeTarget "RKOTopAlert" */;
+			buildPhases = (
+				AE41FC5E1F6248BE00959ED0 /* Sources */,
+				AE41FC5F1F6248BE00959ED0 /* Frameworks */,
+				AE41FC601F6248BE00959ED0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RKOTopAlert;
+			productName = RKOTopAlert;
+			productReference = AE41FC621F6248BE00959ED0 /* RKOTopAlert.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AE41FC5A1F6248BE00959ED0 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0830;
+				ORGANIZATIONNAME = Rakuyo;
+				TargetAttributes = {
+					AE41FC611F6248BE00959ED0 = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = 5C9JW4S9DE;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = AE41FC5D1F6248BE00959ED0 /* Build configuration list for PBXProject "RKOTopAlert" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = AE41FC591F6248BE00959ED0;
+			productRefGroup = AE41FC631F6248BE00959ED0 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AE41FC611F6248BE00959ED0 /* RKOTopAlert */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AE41FC601F6248BE00959ED0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AE41FC751F6248BE00959ED0 /* LaunchScreen.storyboard in Resources */,
+				AE41FC721F6248BE00959ED0 /* Assets.xcassets in Resources */,
+				AE41FC701F6248BE00959ED0 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		AE41FC5E1F6248BE00959ED0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AE41FC6D1F6248BE00959ED0 /* ViewController.m in Sources */,
+				AE41FC6A1F6248BE00959ED0 /* AppDelegate.m in Sources */,
+				AE41FC671F6248BE00959ED0 /* main.m in Sources */,
+				AE41FC7F1F6248CF00959ED0 /* RKOTopAlert.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		AE41FC6E1F6248BE00959ED0 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AE41FC6F1F6248BE00959ED0 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		AE41FC731F6248BE00959ED0 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AE41FC741F6248BE00959ED0 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		AE41FC771F6248BE00959ED0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		AE41FC781F6248BE00959ED0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		AE41FC7A1F6248BE00959ED0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 5C9JW4S9DE;
+				INFOPLIST_FILE = RKOTopAlert/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.Rakuyo.RKOTopAlert;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		AE41FC7B1F6248BE00959ED0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 5C9JW4S9DE;
+				INFOPLIST_FILE = RKOTopAlert/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.Rakuyo.RKOTopAlert;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AE41FC5D1F6248BE00959ED0 /* Build configuration list for PBXProject "RKOTopAlert" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AE41FC771F6248BE00959ED0 /* Debug */,
+				AE41FC781F6248BE00959ED0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AE41FC791F6248BE00959ED0 /* Build configuration list for PBXNativeTarget "RKOTopAlert" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AE41FC7A1F6248BE00959ED0 /* Debug */,
+				AE41FC7B1F6248BE00959ED0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = AE41FC5A1F6248BE00959ED0 /* Project object */;
+}
