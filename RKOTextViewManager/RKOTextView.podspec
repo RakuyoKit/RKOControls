@@ -28,6 +28,6 @@ Pod::Spec.new do |s|
 
   s.requires_arc = true
 
-  s.source_files = "RKOTextView/RKOTextView/RKOTextView/*.{h,m}"
+  s.source_files = "RKOTextViewManager/RKOTextView/RKOTextView/RKOTextView/*.{h,m}"
 
 end
