@@ -24,10 +24,10 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = "7.0"
 
   s.source       = { :git => "https://github.com/rakuyoMo/RKOControls.git", :tag => "1.0.0" } # #{s.version}
-  s.resources    = "RKOTools/RKOControl/RKOTextView/*.{png,xib,nib,bundle}"
 
   s.requires_arc = true
 
   s.source_files = "RKOTextViewManager/RKOTextView/RKOTextView/RKOTextView/*.{h,m}"
+  s.resources    = "RKOTextViewManager/RKOTextView/RKOTextView/RKOTextView/*.{png,xib,nib,bundle}"
 
 end
