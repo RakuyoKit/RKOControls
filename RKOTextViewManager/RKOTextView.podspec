@@ -28,6 +28,6 @@ Pod::Spec.new do |s|
 
   s.requires_arc = true
 
-  s.source_files = "RKONetworkAlert/RKOTextView/RKOTextView/.{h,m}"
+  s.source_files = "RKOControls/RKOTextViewManager/RKOTextView/RKOTextView/RKOTextView/.{h,m}"
 
 end

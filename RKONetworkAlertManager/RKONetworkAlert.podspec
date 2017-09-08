@@ -27,6 +27,6 @@ Pod::Spec.new do |s|
 
   s.requires_arc = true
 
-  s.source_files = "RKONetworkAlert/RKONetworkAlert/RKONetworkAlert/.{h,m}"
+  s.source_files = "RKOControls/RKONetworkAlertManager/RKONetworkAlert/RKONetworkAlert/RKONetworkAlert/.{h,m}"
 
 end
