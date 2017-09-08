@@ -3,7 +3,7 @@
 
 ## 目录
 
-1. [RKOControl](#rkocontrol-1)
+1. [RKOControl](#rkocontrol)
     1. [RKONetworkAlert](#rkonetworkalert)
     2. [RKOTextView](#rkotextview) 
     3. [RKOTopAlert](#rkotopalert)
