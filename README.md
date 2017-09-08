@@ -31,7 +31,7 @@
  pod 'RKONetworkAlert', '~> 1.0.0'
 ```
 
-### 使用：
+#### 使用：
 
 ```objc
 + (void)popAlert;
@@ -56,7 +56,7 @@
  pod 'RKOTextView', '~> 1.0.0'
 ```
 
-### 基本使用：
+#### 基本使用：
 
 ```objc
 [self.textView textViewStyleWithplaceholder:@"请输入待办内容..." maxLimitNumber:40 maxNumberOfLines:3 clearBtnMode:RKOTextFieldViewModeWhileEditing];
@@ -81,7 +81,7 @@
  pod 'RKOTopAlert', '~> 1.0.0'
 ```
 
-### 使用：
+#### 使用：
 
 ```objc
 [RKOTopAlert popAlertViewWithText:@"提醒文字" textColor:[UIColor redColor] ackgroundColor:[UIColor blackColor];
