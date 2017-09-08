@@ -23,7 +23,7 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = "7.0"
 
-  s.source       = { :git => "git@github.com:rakuyoMo/RKOControls.git", :tag => "1.0.0" } # #{s.version}
+  s.source       = { :git => "https://github.com/rakuyoMo/RKOControls.git", :tag => "1.0.0" } # #{s.version}
 
   s.requires_arc = true
 
