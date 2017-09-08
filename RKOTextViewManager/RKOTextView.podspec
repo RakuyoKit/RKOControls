@@ -19,14 +19,15 @@ Pod::Spec.new do |s|
 
   s.license      = "MIT"
 
-  s.author             = { "Rakuyo" => "rakuyo.mo@gmail.com" }
+  s.author       = { "Rakuyo" => "rakuyo.mo@gmail.com" }
 
   s.ios.deployment_target = "7.0"
 
   s.source       = { :git => "git@github.com:rakuyoMo/RKOControls.git", :tag => "1.0.0" } # #{s.version}
+  s.resources    = "RKOTools/RKOControl/RKOTextView/*.{png,xib,nib,bundle}"
 
   s.requires_arc = true
 
-  s.source_files = "RKOTextView/RKOTextView/RKOTextView/.{h,m}"
+  s.source_files = "RKONetworkAlert/RKOTextView/RKOTextView/.{h,m}"
 
 end
