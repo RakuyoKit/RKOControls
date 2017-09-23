@@ -116,7 +116,7 @@ RKOTopAlert *topAlert = [[self sharedManager] alertViewWithText:@"提醒文字" 
 这里安利一下我写的另外一个工具库。原本该控件库和工具库是一个库，后来觉得冗余所以将控件库单独提出来了。
 
 <p align="left">
-<a href=""><img src="https://img.shields.io/badge/pod-v1.4.0-brightgreen.svg"></a>
+<a href=""><img src="https://img.shields.io/badge/pod-v1.4.2-brightgreen.svg"></a>
 <a href=""><img src="https://img.shields.io/badge/ObjectiveC-compatible-orange.svg"></a>
 <a href=""><img src="https://img.shields.io/badge/platform-iOS%208.0%2B-ff69b5152950834.svg"></a>
 <a href="https://github.com/rakuyoMo/RKOTools/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg?style=flat"></a>
