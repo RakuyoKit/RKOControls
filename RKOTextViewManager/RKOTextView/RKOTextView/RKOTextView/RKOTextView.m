@@ -93,6 +93,9 @@
     self.scrollsToTop = NO;
     self.showsHorizontalScrollIndicator = NO;
     self.enablesReturnKeyAutomatically = YES;
+    
+    // TextView的高度自适应
+    [self fitHight:self];
 }
 
 #pragma mark - 系统方法

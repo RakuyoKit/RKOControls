@@ -53,7 +53,7 @@
 #### 集成：
 
 ```shell
- pod 'RKOTextView', '~> 1.0.2'
+ pod 'RKOTextView', '~> 1.0.3'
 ```
 
 #### 基本使用：
