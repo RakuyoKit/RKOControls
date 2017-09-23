@@ -23,8 +23,8 @@ struct {
 // 文字的颜色。
 @property (nonatomic, strong) UIColor *textColor;
 
-// 标记视图已经出现
-@property (nonatomic, assign) BOOL alertDidAppear;
+// 标记视图将要消失
+@property (nonatomic, assign) BOOL alertWillDisappear;
 
 @end
 
@@ -112,6 +112,8 @@ struct {
 // 出现的动画
 - (void)alertAppearWithDuration:(CGFloat)duration {
     
+    NSLog(@"alertAppearWithDuration");
+    
     // 如果已经被添加，则不再出现。
     if (self.superview) {
         return;
@@ -129,7 +131,6 @@ struct {
         self.frame = alertFrame;
     } completion:^(BOOL finished) { // 显示动画完成
         if (finished) {
-            self.alertDidAppear = YES;
             
             // duration秒后横幅自动消失
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(duration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -144,7 +145,8 @@ struct {
 // 消失的动画。
 - (void)alertDisappear {
     
-    if (!self.alertDidAppear) {
+    if (self.alertWillDisappear) {
+        self.alertWillDisappear = NO;
         return;
     }
     
@@ -152,6 +154,9 @@ struct {
     //移除横幅动画,设置完全透明并从父视图中移除
     [UIView animateWithDuration:ALERT_DISAPPEAR_ANIMATE_DURATION
                      animations:^{
+                         
+                         self.alertWillDisappear = YES;
+                         
                          // 向上移动消失。
                          alertFrame.origin.y = -topHight.alertViewH;
                          self.frame = alertFrame;
@@ -165,8 +170,6 @@ struct {
                              self.backgroundColor = nil;
                              // 从父视图中移除。
                              [self removeFromSuperview];
-                             
-                             self.alertDidAppear = NO;
                          }
                      }];
 }
