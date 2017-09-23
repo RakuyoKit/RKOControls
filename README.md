@@ -42,7 +42,7 @@
 ### RKOTextView
 
 <p align="left">
-<a href=""><img src="https://img.shields.io/badge/pod-v1.0.1-brightgreen.svg"></a>
+<a href=""><img src="https://img.shields.io/badge/pod-v1.0.3-brightgreen.svg"></a>
 <a href=""><img src="https://img.shields.io/badge/ObjectiveC-compatible-orange.svg"></a>
 <a href=""><img src="https://img.shields.io/badge/platform-iOS%207.0%2B-ff69b5152950834.svg"></a>
 <a href="https://github.com/rakuyoMo/RKOTools/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg?style=flat"></a>
@@ -78,7 +78,7 @@
 ### RKOTopAlert
 
 <p align="left">
-<a href=""><img src="https://img.shields.io/badge/pod-v1.0.0-brightgreen.svg"></a>
+<a href=""><img src="https://img.shields.io/badge/pod-v1.0.1-brightgreen.svg"></a>
 <a href=""><img src="https://img.shields.io/badge/ObjectiveC-compatible-orange.svg"></a>
 <a href=""><img src="https://img.shields.io/badge/platform-iOS%207.0%2B-ff69b5152950834.svg"></a>
 <a href="https://github.com/rakuyoMo/RKOTools/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg?style=flat"></a>
@@ -89,13 +89,23 @@
 #### 集成：
 
 ```shell
- pod 'RKOTopAlert', '~> 1.0.0'
+ pod 'RKOTopAlert', '~> 1.0.1'
 ```
 
 #### 使用：
 
 ```objc
 [RKOTopAlert popAlertViewWithText:@"提醒文字" textColor:[UIColor redColor] ackgroundColor:[UIColor blackColor];
+```
+
+或者：
+
+```objc
+// 创建单例并设置样式。
+RKOTopAlert *topAlert = [[self sharedManager] alertViewWithText:@"提醒文字" textColor:[UIColor whiteColor] ackgroundColor:[UIColor redColor]];
+    
+// 出现
+[topAlert alertAppearWithDuration:0.3f];
 ```
 
 ---------------------------------------------------------------------
