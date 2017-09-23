@@ -23,55 +23,41 @@
 // 清除按钮的图片的Frame。
 @property (nonatomic) CGSize imgSize;
 // TextView的最大高度。
-@property (nonatomic, assign) NSInteger maxTextH;
+@property (nonatomic, assign) CGFloat maxTextH;
+
+// 达到最大标志的标识符。
+@property (nonatomic, assign) BOOL achMaxTextH;
 
 @end
 
 @implementation RKOTextView
 
 #pragma mark - 初始化方法。
-- (instancetype)initWithFrame:(CGRect)frame placeholder:(NSString *)placeholder maxLimitNumber:(NSInteger)maxLimitNumber clearBtnMode:(RKOTextFieldViewMode)clearBtnMode{
-    
-    if(self = [super initWithFrame:frame]) {
-        [self setUp];
-        
-        self.myPlaceholder = placeholder;
-        self.maxLimitNums = maxLimitNumber;
-        self.clearBtnMode = clearBtnMode;
-    }
-    return self;
-}
-
-- (instancetype)initWithFrame:(CGRect)frame placeholder:(NSString *)placeholder maxLimitNumber:(NSInteger)maxLimitNumber {
-    
-    self = [self initWithFrame:frame placeholder:placeholder maxLimitNumber:maxLimitNumber clearBtnMode:0];
-    
-    return self;
-}
-
 // 快捷方法，创建对象并设置属性。
-+ (RKOTextView *)textViewWithFrame:(CGRect)frame placeholder:(NSString *)placeholder maxLimitNumber:(NSInteger)maxLimitNumber maxNumberOfLines:(NSInteger)maxNumberOfLines clearBtnMode:(RKOTextFieldViewMode)clearBtnMode {
++ (RKOTextView *)textViewWithFrame:(CGRect)frame
+                       placeholder:(NSString *)placeholder
+                              font:(UIFont *)font
+                         maxNumber:(NSInteger)maxNumber
+                  maxNumberOfLines:(NSInteger)maxNumberOfLines
+                      clearBtnMode:(RKOTextFieldViewMode)clearBtnMode
+                        needBorder:(BOOL)needBorder {
     
     RKOTextView *textView = [[self alloc] initWithFrame:frame];
     
     textView.myPlaceholder = placeholder;
-    textView.maxLimitNums = maxLimitNumber;
+    textView.font = font;
+    textView.maxNumber = maxNumber;
     textView.maxNumberOfLines = maxNumberOfLines;
     textView.clearBtnMode = clearBtnMode;
+    textView.needBorder = needBorder;
     
     // 预留，请参考头文件。
     textView.isLimitInputRange = NO;
     
-    return textView;
-}
-
-// 当使用的代码初始化该控件的时候。
-- (instancetype)initWithFrame:(CGRect)frame {
+    // 设置样式。
+    [textView setUp];
     
-    if(self = [super initWithFrame:frame]) {
-        [self setUp];
-    }
-    return self;
+    return textView;
 }
 
 // 当从storyboard/xib中初始化该控件的时候
@@ -79,28 +65,27 @@
     
     if (!(self = [super initWithCoder:aDecoder])) return nil;
     
+    // 设置样式
     [self setUp];
+    
     return self;
 }
 
 - (void)setUp {
-    
     
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
     paragraphStyle.lineBreakMode = NSLineBreakByCharWrapping;
     NSDictionary *attributes = @{NSParagraphStyleAttributeName:paragraphStyle};
     self.attributedText = [[NSAttributedString alloc]initWithString:self.text attributes:attributes];
     
-    
-    // 设置TextView默认字体大小。修改该大小可以一并修改占位符文字的大小。
-    self.font = [UIFont systemFontOfSize:18];
-    // 默认为白色背景
-    self.backgroundColor = [UIColor whiteColor];
-    
     // 设置光标位置
     UIEdgeInsets selfEdgeInsets = self.textContainerInset;
     selfEdgeInsets.left = PADDING;
-    selfEdgeInsets.right = self.clearBtn.frame.origin.x + PADDING * 8;
+    selfEdgeInsets.right = PADDING;
+    if (self.clearBtnMode != RKOTextFieldViewModeNever) {
+        selfEdgeInsets.right = self.clearBtn.frame.origin.x + PADDING * 8;
+    }
+    
     self.textContainerInset = selfEdgeInsets;
     
     // 禁止滚动。
@@ -114,10 +99,12 @@
 // 绘制TextView边框
 - (void)drawRect:(CGRect)rect {
     
-    // 绘制边框
-    self.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    self.layer.borderWidth = BORDERWIDTH;
-    self.layer.cornerRadius = PADDING;
+    if (self.needBorder) {
+        // 绘制边框
+        self.layer.borderColor = [UIColor lightGrayColor].CGColor;
+        self.layer.borderWidth = BORDERWIDTH;
+        self.layer.cornerRadius = PADDING;
+    }
 }
 
 - (void)layoutSubviews {
@@ -174,8 +161,7 @@
             self.clearBtn.hidden = YES;
             break;
             
-        default:
-            break;
+        default: break;
     }
 }
 
@@ -186,7 +172,7 @@
     [self judgmentSubviewsDisplayed:textView];
     
     // 动态计算剩余字符数目
-    if (self.maxLimitNums) {
+    if (self.maxNumber) {
         [self calculateNumberOfRemainingCharacters:textView];
     }
     
@@ -204,7 +190,7 @@
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     
     // 限制输入
-    if (self.maxLimitNums) {
+    if (self.maxNumber) {
         // 当复制过来的时候，这个地方返回的是NO。所以不会自适应高度.....
         return [self limitInputWithTextView:textView range:range replacementText:text];
     }
@@ -214,14 +200,6 @@
 
 #pragma mark - TextView相关
 #pragma mark 样式
-// 设置样式。
-- (void)textViewStyleWithplaceholder:(NSString *)placeholder maxLimitNumber:(NSInteger)maxLimitNumber maxNumberOfLines:(NSInteger)maxNumberOfLines clearBtnMode:(RKOTextFieldViewMode)clearBtnMode {
-    
-    self.myPlaceholder = placeholder;
-    self.maxLimitNums = maxLimitNumber;
-    self.maxNumberOfLines = maxNumberOfLines;
-    self.clearBtnMode = clearBtnMode;
-}
 
 // 判断子视图是否显示
 - (void)judgmentSubviewsDisplayed:(UITextView *)textView {
@@ -275,33 +253,36 @@
     _maxNumberOfLines = maxNumberOfLines;
     
     // 计算最大高度 = (每行高度 * 总行数 + 文字上下间距)
-    _maxTextH = ceil(self.font.lineHeight * maxNumberOfLines + self.textContainerInset.top + self.textContainerInset.bottom);
+    // 多加0.01，防止计算出来的self的高度和maxTextH取整前的高度一致。
+    _maxTextH = ceil(self.font.lineHeight * maxNumberOfLines + self.textContainerInset.top + self.textContainerInset.bottom) + 0.01;
 }
 
 #pragma mark 限制输入的范围
 // 限制文字数目和输入范围
 - (void)limitInputRangeWithTextView:(UITextView *)textView {
     
-    // 当已经输入三行的时候，禁止输入回车
-    if (self.frame.size.height == self.maxTextH && [[self.text substringFromIndex:self.text.length - 1]  isEqual: @"\n"]) {
-        // 等用户已经输入三行，再按回车的时候，取消该回车。并提醒不能输入回车。
-        self.text = [self.text substringToIndex:self.text.length - 1];
-        
-        // 显示提示窗
-        if (self.textViewDelegate && [self.textViewDelegate respondsToSelector:@selector(textViewPopAlertWhenMaxRange:)]) {
-            [self.textViewDelegate textViewPopAlertWhenMaxRange:textView];
-        }
+    // 判断用户是否输入到最大行数。
+    if (textView.frame.size.height != self.maxTextH || ![[textView.text substringFromIndex:textView.text.length - 1]  isEqual: @"\n"]) {
+        return;
     }
     
-    //    // 限制输入范围，当输入到最后的时候，无法继续输入
-    //    CGFloat inputViewH = self.textContainer.size.height + self.textContainerInset.top + self.textContainerInset.bottom;
+    // 等用户已经输入到最大行数的时候，再按回车的时候，取消该回车。并提醒不能输入回车。
+    textView.text = [textView.text substringToIndex:textView.text.length - 1];
+    
+    // 显示提示窗
+    if (self.textViewDelegate && [self.textViewDelegate respondsToSelector:@selector(textViewPopAlertWhenMaxRange:)]) {
+        [self.textViewDelegate textViewPopAlertWhenMaxRange:textView];
+    }
+    
+    //        // 限制输入范围，当输入到最后的时候，无法继续输入
+    //        CGFloat inputViewH = self.textContainer.size.height + self.textContainerInset.top + self.textContainerInset.bottom;
     //
-    //    if (inputViewH >= self.maxTextH) {
-    //        self.text = [self.text substringToIndex:self.text.length - 1];
+    //        if (inputViewH >= self.maxTextH) {
+    //            self.text = [self.text substringToIndex:self.text.length - 1];
     //
     //#warning 在这里显示一个从上到下的提示符，然后删除下面的NSLog。
-    //        NSLog(@"%@",self.text);NSLog(@"%f",inputViewH);
-    //    }
+    //            NSLog(@"%@",self.text);NSLog(@"%f",inputViewH);
+    //        }
 }
 
 #pragma mark 限制输入字符长度
@@ -320,9 +301,9 @@
     NSInteger existTextNum = nsTextContent.length;
     
     // 中文状态下，高亮的拼音部分变成中文的时候。
-    if (existTextNum > self.maxLimitNums) {
+    if (existTextNum > self.maxNumber) {
         // 截取到最大位置的字符(由于超出截部分在should时被处理了所在这里这了提高效率不再判断)
-        NSString *s = [nsTextContent substringToIndex:self.maxLimitNums];
+        NSString *s = [nsTextContent substringToIndex:self.maxNumber];
         
         [textView setText:s];
         
@@ -351,7 +332,7 @@
         NSInteger endOffset = [textView offsetFromPosition:textView.beginningOfDocument toPosition:selectedRange.end];
         NSRange offsetRange = NSMakeRange(startOffset, endOffset - startOffset);
         
-        if (offsetRange.location < self.maxLimitNums) {
+        if (offsetRange.location < self.maxNumber) {
             return YES;
         } else {
             // 显示提示窗，提示字数限制
@@ -364,7 +345,7 @@
     
     NSString *comcatstr = [textView.text stringByReplacingCharactersInRange:range withString:text];
     
-    NSInteger caninputlen = self.maxLimitNums - comcatstr.length;
+    NSInteger caninputlen = self.maxNumber - comcatstr.length;
     
     if (caninputlen >= 0) {
         return YES;
@@ -429,6 +410,8 @@
 // 重写set方法，如果设置了clearBtnMode再创建按钮
 - (void)setClearBtnMode:(RKOTextFieldViewMode)clearBtnMode {
     
+    self.clearBtn = nil;
+    
     if (clearBtnMode != RKOTextFieldViewModeNever) {
         _clearBtnMode = clearBtnMode;
         // 创建清除按钮
@@ -486,7 +469,7 @@
     CGPoint point = self.frame.origin;
     
     CGFloat btnX = self.frame.size.width - self.imgSize.width - PADDING * 1.5;
-    CGFloat btnY = (self.contentSize.height - self.imgSize.height) * 0.5;
+    CGFloat btnY = (self.frame.size.height - self.imgSize.height) * 0.5;
     
     UIViewController *vc = [[UIApplication sharedApplication].keyWindow rootViewController];
     UINavigationController *naviVC = nil;
@@ -553,7 +536,13 @@
 
 // 重写字体的设置方法，保证两个字的大小一样
 - (void)setFont:(UIFont *)font {
+    // 如果传nil的话则为系统默认大小。
+    if (!font) {
+        font = [UIFont systemFontOfSize:[UIFont systemFontSize]];
+    }
+    
     [super setFont:font];
+    
     // 修改占位符文字的大小。
     self.placeholderLabel.font = font;
     
