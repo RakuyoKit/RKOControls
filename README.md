@@ -62,15 +62,16 @@
 // 设置大小位置。
     CGRect frame = CGRectMake(100, 300, 200, 200);
     
-    // 设置样式
-    RKOTextView *textViewWithCode = [RKOTextView textViewWithFrame:frame
-                                                       placeholder:@"纯代码创建..."
-                                                              font:[UIFont systemFontOfSize:18]
-                                                         maxNumber:50
-                                                  maxNumberOfLines:4 clearBtnMode:RKOTextFieldViewModeWhileEditing
-                                                        needBorder:YES];
-    // 添加视图
-    [self.view addSubview:textViewWithCode];
+// 设置样式
+RKOTextView *textViewWithCode = [RKOTextView textViewWithFrame:frame
+                                                   placeholder:@"纯代码创建..."
+                                                          font:[UIFont systemFontOfSize:18]
+                                                     maxNumber:50
+                                              maxNumberOfLines:4
+                                                  clearBtnMode:RKOTextFieldViewModeWhileEditing
+                                                    needBorder:YES];
+// 添加视图
+[self.view addSubview:textViewWithCode];
 ```
 
 ---------------------------------------------------------------------
@@ -126,7 +127,7 @@ RKOTopAlert *topAlert = [[self sharedManager] alertViewWithText:@"提醒文字" 
 ### 集成：
 
 ```shell
- pod 'RKOTools', '~> 1.4.0'
+ pod 'RKOTools', '~> 1.4.2'
 ```
 
 ---------------------------------------------------------------------
