@@ -13,6 +13,9 @@
 
 #define PADDING 5.0f
 
+// 行间距
+#define lINESPACE 5
+
 @interface RKOTextView () <UITextViewDelegate>
 
 // 占位文字的Label。
@@ -69,18 +72,18 @@
     // 设置行间距以及换行模式。
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
     paragraphStyle.lineBreakMode = NSLineBreakByCharWrapping;
-    paragraphStyle.lineSpacing = 3;
+    paragraphStyle.lineSpacing = lINESPACE;
     NSDictionary *attributes = @{
                                  NSFontAttributeName:self.font,
                                  NSParagraphStyleAttributeName:paragraphStyle
                                  };
-    self.attributedText = [[NSAttributedString alloc]initWithString:self.text attributes:attributes];
+    self.attributedText = [[NSAttributedString alloc] initWithString:self.text attributes:attributes];
     
     // 设置光标位置
     UIEdgeInsets selfEdgeInsets = self.textContainerInset;
     selfEdgeInsets.left = PADDING;
     selfEdgeInsets.right = PADDING;
-
+    
     self.textContainerInset = selfEdgeInsets;
     
     // 禁止滚动。
@@ -158,7 +161,7 @@
     
     // 当编辑时隐藏占位符
     self.placeholderLabel.hidden = self.hasText;
-
+    
     // TextView的高度自适应
     [self fitHight:textView];
 }
@@ -192,9 +195,12 @@
 - (void)setMaxNumberOfLines:(NSUInteger)maxNumberOfLines {
     _maxNumberOfLines = maxNumberOfLines;
     
-    // 计算最大高度 = (每行高度 * 总行数 + 文字上下间距)
+    // 计算最大高度 = (行间距 * (总行数 + 1) + 每行高度 * 总行数 + 文字上下间距)
     // 多加0.01，防止计算出来的self的高度和maxTextH取整前的高度一致。
-    _maxTextH = ceil(self.font.lineHeight * maxNumberOfLines + self.textContainerInset.top + self.textContainerInset.bottom) + 0.01;
+    _maxTextH = ceil(lINESPACE * (maxNumberOfLines + 1) +
+                     self.font.lineHeight * maxNumberOfLines +
+                     self.textContainerInset.top +
+                     self.textContainerInset.bottom) + 0.01;
 }
 
 #pragma mark 限制输入的范围
@@ -416,3 +422,4 @@
 }
 
 @end
+
