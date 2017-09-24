@@ -64,12 +64,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - 常量。
 /** 定义ClearButton显示的时机 */
-//typedef NS_ENUM(NSInteger, RKOTextFieldViewMode) {
-//    RKOTextFieldViewModeNever = 0,  /** 从不显示 */
-//    RKOTextFieldViewModeWhileEditing,   /** 当编辑的时候显示 */
-//    RKOTextFieldViewModeUnlessEditing,  /** 编辑的时候不显示 */
-//    RKOTextFieldViewModeAlways  /** 总是显示 */
-//};
+typedef NS_ENUM(NSInteger, RKOTextFieldViewMode) {
+    RKOTextFieldViewModeNever = 0,  /** 从不显示 */
+    RKOTextFieldViewModeWhileEditing,   /** 当编辑的时候显示 */
+    RKOTextFieldViewModeUnlessEditing,  /** 编辑的时候不显示 */
+    RKOTextFieldViewModeAlways  /** 总是显示 */
+};
 
 
 #pragma mark - 方法。
@@ -91,8 +91,9 @@ NS_ASSUME_NONNULL_BEGIN
                               font:(nullable UIFont *)font
                          maxNumber:(NSInteger)maxNumber
                   maxNumberOfLines:(NSInteger)maxNumberOfLines
+                      clearBtnMode:(RKOTextFieldViewMode)clearBtnMode
                         needBorder:(BOOL)needBorder;
-//                      clearBtnMode:(RKOTextFieldViewMode)clearBtnMode
+
 
 
 #pragma mark - 属性。
@@ -117,7 +118,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) IBInspectable NSInteger maxNumber;
 
 /** 清除按钮的显示时机 */
-//@property (nonatomic) RKOTextFieldViewMode clearBtnMode;
+@property (nonatomic) RKOTextFieldViewMode clearBtnMode;
 
 /** 代理 */
 @property (nonatomic, weak) id<RKOTextViewDelegate> textViewDelegate;

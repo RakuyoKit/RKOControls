@@ -39,8 +39,9 @@
                               font:(UIFont *)font
                          maxNumber:(NSInteger)maxNumber
                   maxNumberOfLines:(NSInteger)maxNumberOfLines
+                      clearBtnMode:(RKOTextFieldViewMode)clearBtnMode
                         needBorder:(BOOL)needBorder {
-    //                      clearBtnMode:(RKOTextFieldViewMode)clearBtnMode
+    
     
     RKOTextView *textView = [[self alloc] initWithFrame:frame];
     
@@ -48,7 +49,7 @@
     textView.font = font;
     textView.maxNumber = maxNumber;
     textView.maxNumberOfLines = maxNumberOfLines;
-    //    textView.clearBtnMode = clearBtnMode;
+        textView.clearBtnMode = clearBtnMode;
     textView.needBorder = needBorder;
     
     // 预留，请参考头文件。
@@ -82,9 +83,10 @@
     UIEdgeInsets selfEdgeInsets = self.textContainerInset;
     selfEdgeInsets.left = PADDING;
     selfEdgeInsets.right = PADDING;
-    //    if (self.clearBtnMode != RKOTextFieldViewModeNever) {
-    //        selfEdgeInsets.right = self.clearBtn.frame.origin.x + PADDING * 8;
-    //    }
+    
+    if (self.clearBtnMode != RKOTextFieldViewModeNever) {
+        selfEdgeInsets.right = self.clearBtn.frame.origin.x + PADDING * 8;
+    }
     
     self.textContainerInset = selfEdgeInsets;
     
@@ -120,53 +122,53 @@
     if (self.placeholderLabel) {
         [self layoutPlaceholderLabel];
     }
-    /*
-     // 对clear button进行布局。
-     if (self.clearBtnMode != RKOTextFieldViewModeNever) {
-     [self layoutClearButton];
-     }
-     */
+    
+    // 对clear button进行布局。
+    if (self.clearBtnMode != RKOTextFieldViewModeNever) {
+        [self layoutClearButton];
+    }
+     
 }
 
 - (void)textViewDidBeginEditing:(UITextView *)textView {
     
-    //    // 在开始编辑的时候.
-    //    switch (self.clearBtnMode) {
-    //            // 如果ClearButton的类型是RKOTextFieldViewModeWhileEditing，则显示清除按钮。
-    //        case RKOTextFieldViewModeWhileEditing:
-    //            if (self.text.length != 0) {
-    //                self.clearBtn.hidden = NO;
-    //            }
-    //            break;
-    //
-    //            // 如果ClearButton的类型是RKOTextFieldViewModeUnlessEditing，则隐藏清除按钮。
-    //        case RKOTextFieldViewModeUnlessEditing:
-    //            self.clearBtn.hidden = YES;
-    //            break;
-    //
-    //        default: break;
-    //    }
+    // 在开始编辑的时候.
+    switch (self.clearBtnMode) {
+            // 如果ClearButton的类型是RKOTextFieldViewModeWhileEditing，则显示清除按钮。
+        case RKOTextFieldViewModeWhileEditing:
+            if (self.text.length != 0) {
+                self.clearBtn.hidden = NO;
+            }
+            break;
+
+            // 如果ClearButton的类型是RKOTextFieldViewModeUnlessEditing，则隐藏清除按钮。
+        case RKOTextFieldViewModeUnlessEditing:
+            self.clearBtn.hidden = YES;
+            break;
+
+        default: break;
+    }
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView {
     
-    // 在编辑结束的时候
-    //    switch (self.clearBtnMode) {
-    //            // 如果ClearButton的类型是RKOTextFieldViewModeUnlessEditing，则在输入结束的时候显示。
-    //        case RKOTextFieldViewModeUnlessEditing:
-    //            if (self.text.length != 0) {
-    //                self.clearBtn.hidden = NO;
-    //                // 显示到最上层。
-    //                [[UIApplication sharedApplication].delegate.window bringSubviewToFront:self.clearBtn];
-    //            }
-    //            break;
-    //            // 如果ClearButton的类型是RKOTextFieldViewModeWhileEditing，则在结束输入的时候隐藏。
-    //        case RKOTextFieldViewModeWhileEditing:
-    //            self.clearBtn.hidden = YES;
-    //            break;
-    //
-    //        default: break;
-    //    }
+    //在编辑结束的时候
+    switch (self.clearBtnMode) {
+            // 如果ClearButton的类型是RKOTextFieldViewModeUnlessEditing，则在输入结束的时候显示。
+        case RKOTextFieldViewModeUnlessEditing:
+            if (self.text.length != 0) {
+                self.clearBtn.hidden = NO;
+                // 显示到最上层。
+                [[UIApplication sharedApplication].delegate.window bringSubviewToFront:self.clearBtn];
+            }
+            break;
+            // 如果ClearButton的类型是RKOTextFieldViewModeWhileEditing，则在结束输入的时候隐藏。
+        case RKOTextFieldViewModeWhileEditing:
+            self.clearBtn.hidden = YES;
+            break;
+
+        default: break;
+    }
 }
 
 // 监听文字改变
@@ -212,16 +214,15 @@
     self.placeholderLabel.hidden = self.hasText;
     
     // 根据ClearButton的显示时机设置什么时候显示ClearButton
-    //    switch (self.clearBtnMode) {
-    //        case RKOTextFieldViewModeAlways:
-    //        case RKOTextFieldViewModeWhileEditing:
-    //            // 当编辑时显示清除按钮
-    //            self.clearBtn.hidden = !self.hasText;
-    //            // 显示到最上层。
-    //            [[UIApplication sharedApplication].delegate.window bringSubviewToFront:self.clearBtn];
-    //
-    //        default: break;
-    //    }
+    switch (self.clearBtnMode) {
+        case RKOTextFieldViewModeAlways:
+        case RKOTextFieldViewModeWhileEditing:
+            // 当编辑时显示清除按钮
+            self.clearBtn.hidden = !self.hasText;
+            // 显示到最上层。
+            [[UIApplication sharedApplication].delegate.window bringSubviewToFront:self.clearBtn];
+        default: break;
+    }
     
     // TextView的高度自适应
     [self fitHight:textView];
@@ -278,15 +279,15 @@
         [self.textViewDelegate textViewPopAlertWhenMaxRange:textView];
     }
     
-    //        // 限制输入范围，当输入到最后的时候，无法继续输入
-    //        CGFloat inputViewH = self.textContainer.size.height + self.textContainerInset.top + self.textContainerInset.bottom;
-    //
-    //        if (inputViewH >= self.maxTextH) {
-    //            self.text = [self.text substringToIndex:self.text.length - 1];
-    //
-    //#warning 在这里显示一个从上到下的提示符，然后删除下面的NSLog。
-    //            NSLog(@"%@",self.text);NSLog(@"%f",inputViewH);
-    //        }
+    // 限制输入范围，当输入到最后的时候，无法继续输入
+//    CGFloat inputViewH = self.textContainer.size.height + self.textContainerInset.top + self.textContainerInset.bottom;
+//
+//    if (inputViewH >= self.maxTextH) {
+//        self.text = [self.text substringToIndex:self.text.length - 1];
+//
+//#warning 在这里显示一个从上到下的提示符，然后删除下面的NSLog。
+//            NSLog(@"%@",self.text);NSLog(@"%f",inputViewH);
+//    }
 }
 
 #pragma mark 限制输入字符长度
@@ -411,7 +412,7 @@
 }
 
 #pragma mark - 清除按钮
-/*
+
  // 重写set方法，如果设置了clearBtnMode再创建按钮
  - (void)setClearBtnMode:(RKOTextFieldViewMode)clearBtnMode {
  
@@ -508,7 +509,7 @@
  
  self.clearBtn.frame = CGRectMake(btnX + point.x, btnY + point.y, self.imgSize.width, self.imgSize.height);
  }
- */
+ 
 #pragma mark - 占位符
 // 初始化占位符Lable
 - (void)createPlaceholderLabel {
