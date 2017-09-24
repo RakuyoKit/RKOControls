@@ -66,6 +66,16 @@
 
 - (void)setUp {
     
+    // 设置行间距以及换行模式。
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
+    paragraphStyle.lineBreakMode = NSLineBreakByCharWrapping;
+    paragraphStyle.lineSpacing = 3;
+    NSDictionary *attributes = @{
+                                 NSFontAttributeName:self.font,
+                                 NSParagraphStyleAttributeName:paragraphStyle
+                                 };
+    self.attributedText = [[NSAttributedString alloc]initWithString:self.text attributes:attributes];
+    
     // 设置光标位置
     UIEdgeInsets selfEdgeInsets = self.textContainerInset;
     selfEdgeInsets.left = PADDING;
@@ -191,8 +201,9 @@
 // 限制文字数目和输入范围
 - (void)limitInputRangeWithTextView:(UITextView *)textView {
     
-    // 判断用户是否输入到最大行数。
-    if (textView.frame.size.height != self.maxTextH || ![[textView.text substringFromIndex:textView.text.length - 1]  isEqual: @"\n"]) {
+    // 判断用户是否输入到最大行数。如果达到最大字数，则不提示行数。
+    if (textView.frame.size.height != self.maxTextH
+        || ![[textView.text substringFromIndex:textView.text.length - 1]  isEqual: @"\n"] ) {
         return;
     }
     
@@ -241,8 +252,8 @@
         if (self.textViewDelegate && [self.textViewDelegate respondsToSelector:@selector(textViewPopAlertWhenMaxNumber:)]) {
             [self.textViewDelegate textViewPopAlertWhenMaxNumber:textView];
         }
-        
     }
+    
     // 不让显示负数 口口日
     // self.lbNums.text = [NSString stringWithFormat:@"%ld/%d",MAX(0,MAX_LIMIT_NUMS - existTextNum),MAX_LIMIT_NUMS];
 }
