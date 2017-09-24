@@ -48,11 +48,11 @@ NS_ASSUME_NONNULL_BEGIN
  * 4. 可以监听输入。
  * 5. 可以限制TextView显示的最大行数，在达到最大行数后滚动显示。
  * 6. 可以设置限制最大输入长度，并在达到最大字数时从顶部向下弹出提示窗，可设置提示文字、文字颜色及背景色。（默认和Navigation同高）
- * 7. 在右侧提供一个清除按钮，可以设置显示时机，始终对于TextView垂直居中。
- * 8. 设置文字颜色和背景色的方法和原生UITextView没有区别。
+ * 7. 设置文字颜色和背景色的方法和原生UITextView没有区别。
  *
  * 还未实现的功能：
- * 1. 限制输入的范围
+ * 1. 一个相对于TextView垂直居中的清除按钮
+ * 2. 限制输入的范围
  *
  *  注意：
  * 1. 请确保您设置的宽度足够显示占位文字，若宽度不足以显示占位文字，占位文字的显示效果会出现问题。
@@ -61,16 +61,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 
 @interface RKOTextView : UITextView
-
-#pragma mark - 常量。
-/** 定义ClearButton显示的时机 */
-//typedef NS_ENUM(NSInteger, RKOTextFieldViewMode) {
-//    RKOTextFieldViewModeNever = 0,  /** 从不显示 */
-//    RKOTextFieldViewModeWhileEditing,   /** 当编辑的时候显示 */
-//    RKOTextFieldViewModeUnlessEditing,  /** 编辑的时候不显示 */
-//    RKOTextFieldViewModeAlways  /** 总是显示 */
-//};
-
 
 #pragma mark - 方法。
 
@@ -82,7 +72,6 @@ NS_ASSUME_NONNULL_BEGIN
  * @param font 字体（传nil则为系统默认字体）
  * @param maxNumber 最大的限制字数
  * @param maxNumberOfLines 最大的限制行数
- * @param clearBtnMode 清除按钮的样式
  * @param needBorder 是否显示默认边框
  * @return RKOTextView
  */
@@ -92,14 +81,10 @@ NS_ASSUME_NONNULL_BEGIN
                          maxNumber:(NSInteger)maxNumber
                   maxNumberOfLines:(NSInteger)maxNumberOfLines
                         needBorder:(BOOL)needBorder;
-//                      clearBtnMode:(RKOTextFieldViewMode)clearBtnMode
-
 
 #pragma mark - 属性。
 /**
  * 使用IBInspectable关键字，方便您在Storyboard中使用该控件时，设置属性。
- *
- * 若您需要设置清除按钮，那么需要在代码中单独设置clearBtnMode属性。
  */
 
 /** 是否显示默认的边框 */
@@ -116,11 +101,10 @@ NS_ASSUME_NONNULL_BEGIN
  注意：该属性优先于最大行数，即在达到最大字数却没有达到最大行数的情况下，无法继续输入。 */
 @property (nonatomic, assign) IBInspectable NSInteger maxNumber;
 
-/** 清除按钮的显示时机 */
-//@property (nonatomic) RKOTextFieldViewMode clearBtnMode;
-
 /** 代理 */
 @property (nonatomic, weak) id<RKOTextViewDelegate> textViewDelegate;
+
+
 
 
 

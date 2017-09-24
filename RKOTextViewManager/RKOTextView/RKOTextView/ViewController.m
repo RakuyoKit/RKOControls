@@ -52,10 +52,6 @@
     
     // 最大字数
     self.testTextView.maxNumber = 100;
-    
-    // 清除按钮显示时机
-    self.testTextView.clearBtnMode = RKOTextFieldViewModeWhileEditing;
-    
 }
 
 - (void)setUpWithCode {
@@ -68,7 +64,7 @@
                                                        placeholder:@"纯代码创建..."
                                                               font:[UIFont systemFontOfSize:18]
                                                          maxNumber:50
-                                                  maxNumberOfLines:4 clearBtnMode:RKOTextFieldViewModeWhileEditing
+                                                  maxNumberOfLines:4
                                                         needBorder:YES];
     // 添加视图
     [self.view addSubview:textViewWithCode];
