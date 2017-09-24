@@ -8,10 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+@class RKOTopAlert;
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
+// 顶部的提示视图
+@property (nonatomic, strong) RKOTopAlert *topAlert;
 
 @end
 

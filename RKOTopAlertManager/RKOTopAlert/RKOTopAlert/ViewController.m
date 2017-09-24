@@ -7,6 +7,8 @@
 //
 
 #import "ViewController.h"
+#import "AppDelegate.h"
+#import "RKOTopAlert.h"
 
 @interface ViewController ()
 
@@ -16,13 +18,18 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    
 }
 
+- (IBAction)popAlert:(id)sender {
+    [((AppDelegate *)[UIApplication sharedApplication].delegate).topAlert alertAppearWithDuration:2.0];
+}
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (IBAction)popAlertTwo:(id)sender {
+    
+    RKOTopAlert *topAlert = [RKOTopAlert alertViewWithText:@"单独设置提示文字" textColor:[UIColor whiteColor] ackgroundColor:[UIColor redColor]];
+    
+    [topAlert alertAppearWithDuration:2.0];
 }
 
 

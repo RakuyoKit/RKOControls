@@ -19,43 +19,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface RKOTopAlert : UIView
 
-#pragma mark - 分别设置每个弹窗样式。
 /**
  * 设置提示窗的样式，并弹出提示窗。（其对象参数均不可为nil。）
  
  * @param text 提示窗显示文字。
  * @param textColor 文字颜色。
  * @param backgroundColor 提示窗背景颜色。
- * @param duration 横幅持续显示的时间。
+ * @return 调用对象本身
  */
-+ (void)popAlertViewWithText:(NSString *)text
-                   textColor:(UIColor *)textColor
-              ackgroundColor:(UIColor *)backgroundColor
-                    duration:(CGFloat)duration;
-
-#pragma mark - 统一设置App所有弹窗样式
-/**
- * 单例方法，创建对象。
- 
- * @return 提示窗Alert。
- */
-+ (RKOTopAlert *)sharedManager;
-
-/**
- 设置样式。（其对象参数均不可为nil。）
- 
- @param text 提示窗显示文字。
- @param textColor 文字颜色。
- @param backgroundColor 提示窗背景颜色。
- */
-- (void)alertViewWithText:(NSString *)text
-                textColor:(UIColor *)textColor
-           ackgroundColor:(UIColor *)backgroundColor;
++ (instancetype)alertViewWithText:(NSString *)text
+                        textColor:(UIColor *)textColor
+                   ackgroundColor:(UIColor *)backgroundColor;
 
 /**
  * 弹出提示窗的方法。
  
- * @param duration 横幅持续显示的时间。
+ * @param duration 横幅持续显示的时间。如果传0，则需要手动调用alertDisappear方法使视图消失。
  */
 - (void)alertAppearWithDuration:(CGFloat)duration;
 
@@ -67,4 +46,3 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
-

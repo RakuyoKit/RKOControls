@@ -23,9 +23,6 @@
 // TextView的最大高度。
 @property (nonatomic, assign) CGFloat maxTextH;
 
-// 达到最大标志的标识符。
-@property (nonatomic, assign) BOOL achMaxTextH;
-
 @end
 
 @implementation RKOTextView

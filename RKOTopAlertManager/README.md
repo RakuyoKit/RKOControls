@@ -1,7 +1,7 @@
 # RKOTopAlert
 
 <p align="center">
-<a href=""><img src="https://img.shields.io/badge/pod-v1.0.2-brightgreen.svg"></a>
+<a href=""><img src="https://img.shields.io/badge/pod-v1.0.3-brightgreen.svg"></a>
 <a href=""><img src="https://img.shields.io/badge/ObjectiveC-compatible-orange.svg"></a>
 <a href=""><img src="https://img.shields.io/badge/platform-iOS%207.0%2B-ff69b5152950834.svg"></a>
 <a href="https://github.com/rakuyoMo/RKOTools/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg?style=flat"></a>
@@ -10,6 +10,8 @@
 ## 简介
 
 自定义一个顶端的`Alert`提示窗。弹出时从顶端向下移动。（**在iPhone X下可用**）
+
+随仓库配套了一个简单的 **演示Demo**，方便大家使用参考。
 
 可以设置**提示文字**、**文字颜色**、**背景颜色**。
 
@@ -30,75 +32,61 @@
 ## 集成
 
 ```shell
- pod 'RKOTopAlert', '~> 1.0.2'
+ pod 'RKOTopAlert', '~> 1.0.3'
 ```
 
 ## 使用
 
-在需要弹出该提示窗的地方调用下面的方法：
+使用下面的方法创建一个`Alert`视图，对`Alert`视图调用 `alertAppearWithDuration` 并设置时候，即可弹出 `Alert`视图。
 
 ```objc
-[RKOTopAlert popAlertViewWithText:@"提醒文字" textColor:[UIColor whiteColor] ackgroundColor:[UIColor redColor];
+RKOTopAlert *topAlert = [RKOTopAlert alertViewWithText:@"提示文字" textColor:[UIColor whiteColor] ackgroundColor:[UIColor redColor]];
+    
+[topAlert alertAppearWithDuration:2.0];
 ```
 
-如果您的`App`需要统一多个提示窗的样式，那么推荐您使用下面的方法：
+如果您的`App`需要统一多个提示窗的样式，那么推荐您在 `AppDelegate` 中进行设置：
 
 ```objc
-// 创建单例并设置样式。
-RKOTopAlert *topAlert = [[self sharedManager] alertViewWithText:@"提醒文字" textColor:[UIColor whiteColor] ackgroundColor:[UIColor redColor]];
-    
-// 出现
-[topAlert alertAppearWithDuration:0.3f];
+// 在 AppDelegate.h 中设置属性
+@property (nonatomic, strong) RKOTopAlert *topAlert;
+
+// 懒加载属性，创建对象并设置样式。
+- (RKOTopAlert *)topAlert {
+    return [RKOTopAlert alertViewWithText:@"在AppDelegate中总体设置" textColor:[UIColor blackColor] ackgroundColor:[UIColor orangeColor]];
+}
+
+// 在按钮方法或其它方法中，获取属性调用弹出方法。
+- (IBAction)popAlert:(id)sender {
+    [((AppDelegate *)[UIApplication sharedApplication].delegate).topAlert alertAppearWithDuration:2.0];
+}
 ```
 
 ## 接口
 
-该提示窗提供一个方法用于设置样式并弹出提示窗。
+本控件提供一个工厂方法，用以创建对象并设置样式：
 
 ```objc
 /**
  * 设置提示窗的样式，并弹出提示窗。（其对象参数均不可为nil。）
-
+ 
  * @param text 提示窗显示文字。
  * @param textColor 文字颜色。
  * @param backgroundColor 提示窗背景颜色。
- * @param duration 横幅持续显示的时间。
+ * @return 调用对象本身
  */
-+ (void)popAlertViewWithText:(NSString *)text
-                   textColor:(UIColor *)textColor
-              ackgroundColor:(UIColor *)backgroundColor
-                    duration:(CGFloat)duration;
++ (instancetype)alertViewWithText:(NSString *)text
+                        textColor:(UIColor *)textColor
+                   ackgroundColor:(UIColor *)backgroundColor;
 ```
 
-此外，考虑到您可以需要统一的设置多个弹窗，我们提供如下的方法进行设置：
-
-```objc
-/**
- * 单例方法，创建对象。
-
- * @return 提示窗Alert。
- */
-+ (RKOTopAlert *)sharedManager;
-
-/**
- * 设置样式。（其对象参数均不可为nil。）
-
- * @param text 提示窗显示文字。
- * @param textColor 文字颜色。
- * @param backgroundColor 提示窗背景颜色。
- */
-- (void)alertViewWithText:(NSString *)text
-                textColor:(UIColor *)textColor
-           ackgroundColor:(UIColor *)backgroundColor;
-```
-
-此外，我们分别提供了弹窗弹窗的**弹出**方法与**消失**方法，方便您在他处动态地控制弹窗的弹出与消失：
+此外，我们分别提供了弹窗弹窗的**弹出**方法与**消失**方法，方便您动态地控制弹窗的弹出与消失：
 
 ```objc
 /**
  * 弹出提示窗的方法。
 
- * @param duration 横幅持续显示的时间。
+ * @param duration 横幅持续显示的时间。如果传0，则需要手动调用alertDisappear方法使视图消失。
  */
 - (void)alertAppearWithDuration:(CGFloat)duration;
 

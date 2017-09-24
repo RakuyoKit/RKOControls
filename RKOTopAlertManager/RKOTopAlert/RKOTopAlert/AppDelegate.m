@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "RKOTopAlert.h"
 
 @interface AppDelegate ()
 
@@ -14,6 +15,10 @@
 
 @implementation AppDelegate
 
+#pragma mark - Top Alert
+- (RKOTopAlert *)topAlert {
+    return [RKOTopAlert alertViewWithText:@"在AppDelegate中总体设置" textColor:[UIColor blackColor] ackgroundColor:[UIColor orangeColor]];
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
