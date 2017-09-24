@@ -42,7 +42,7 @@
 ### RKOTextView
 
 <p align="left">
-<a href=""><img src="https://img.shields.io/badge/pod-v1.0.4-brightgreen.svg"></a>
+<a href=""><img src="https://img.shields.io/badge/pod-v1.0.5-brightgreen.svg"></a>
 <a href=""><img src="https://img.shields.io/badge/ObjectiveC-compatible-orange.svg"></a>
 <a href=""><img src="https://img.shields.io/badge/platform-iOS%207.0%2B-ff69b5152950834.svg"></a>
 <a href="https://github.com/rakuyoMo/RKOTools/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg?style=flat"></a>
@@ -53,7 +53,7 @@
 #### 集成：
 
 ```shell
- pod 'RKOTextView', '~> 1.0.4'
+ pod 'RKOTextView', '~> 1.0.5'
 ```
 
 #### 基本使用：
