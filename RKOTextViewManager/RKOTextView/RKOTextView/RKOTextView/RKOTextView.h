@@ -63,14 +63,14 @@ NS_ASSUME_NONNULL_BEGIN
 @interface RKOTextView : UITextView
 
 #pragma mark - 常量。
-
 /** 定义ClearButton显示的时机 */
-typedef NS_ENUM(NSInteger, RKOTextFieldViewMode) {
-    RKOTextFieldViewModeNever = 0,  /** 从不显示 */
-    RKOTextFieldViewModeWhileEditing,   /** 当编辑的时候显示 */
-    RKOTextFieldViewModeUnlessEditing,  /** 编辑的时候不显示 */
-    RKOTextFieldViewModeAlways  /** 总是显示 */
-};
+//typedef NS_ENUM(NSInteger, RKOTextFieldViewMode) {
+//    RKOTextFieldViewModeNever = 0,  /** 从不显示 */
+//    RKOTextFieldViewModeWhileEditing,   /** 当编辑的时候显示 */
+//    RKOTextFieldViewModeUnlessEditing,  /** 编辑的时候不显示 */
+//    RKOTextFieldViewModeAlways  /** 总是显示 */
+//};
+
 
 #pragma mark - 方法。
 
@@ -89,10 +89,10 @@ typedef NS_ENUM(NSInteger, RKOTextFieldViewMode) {
 + (RKOTextView *)textViewWithFrame:(CGRect)frame
                        placeholder:(nullable NSString *)placeholder
                               font:(nullable UIFont *)font
-                    maxNumber:(NSInteger)maxNumber
+                         maxNumber:(NSInteger)maxNumber
                   maxNumberOfLines:(NSInteger)maxNumberOfLines
-                      clearBtnMode:(RKOTextFieldViewMode)clearBtnMode
                         needBorder:(BOOL)needBorder;
+//                      clearBtnMode:(RKOTextFieldViewMode)clearBtnMode
 
 
 #pragma mark - 属性。
@@ -101,9 +101,6 @@ typedef NS_ENUM(NSInteger, RKOTextFieldViewMode) {
  *
  * 若您需要设置清除按钮，那么需要在代码中单独设置clearBtnMode属性。
  */
-
-/** 清除按钮的显示时机 */
-@property (nonatomic) RKOTextFieldViewMode clearBtnMode;
 
 /** 是否显示默认的边框 */
 @property (nonatomic, assign) IBInspectable BOOL needBorder;
@@ -118,6 +115,9 @@ typedef NS_ENUM(NSInteger, RKOTextFieldViewMode) {
  
  注意：该属性优先于最大行数，即在达到最大字数却没有达到最大行数的情况下，无法继续输入。 */
 @property (nonatomic, assign) IBInspectable NSInteger maxNumber;
+
+/** 清除按钮的显示时机 */
+//@property (nonatomic) RKOTextFieldViewMode clearBtnMode;
 
 /** 代理 */
 @property (nonatomic, weak) id<RKOTextViewDelegate> textViewDelegate;
@@ -139,3 +139,4 @@ typedef NS_ENUM(NSInteger, RKOTextFieldViewMode) {
 @end
 
 NS_ASSUME_NONNULL_END
+

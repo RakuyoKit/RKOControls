@@ -39,8 +39,8 @@
                               font:(UIFont *)font
                          maxNumber:(NSInteger)maxNumber
                   maxNumberOfLines:(NSInteger)maxNumberOfLines
-                      clearBtnMode:(RKOTextFieldViewMode)clearBtnMode
                         needBorder:(BOOL)needBorder {
+    //                      clearBtnMode:(RKOTextFieldViewMode)clearBtnMode
     
     RKOTextView *textView = [[self alloc] initWithFrame:frame];
     
@@ -48,7 +48,7 @@
     textView.font = font;
     textView.maxNumber = maxNumber;
     textView.maxNumberOfLines = maxNumberOfLines;
-    textView.clearBtnMode = clearBtnMode;
+    //    textView.clearBtnMode = clearBtnMode;
     textView.needBorder = needBorder;
     
     // 预留，请参考头文件。
@@ -73,18 +73,18 @@
 
 - (void)setUp {
     
-    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
-    paragraphStyle.lineBreakMode = NSLineBreakByCharWrapping;
-    NSDictionary *attributes = @{NSParagraphStyleAttributeName:paragraphStyle};
-    self.attributedText = [[NSAttributedString alloc]initWithString:self.text attributes:attributes];
+    //    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
+    //    paragraphStyle.lineBreakMode = NSLineBreakByCharWrapping;
+    //    NSDictionary *attributes = @{NSParagraphStyleAttributeName:paragraphStyle};
+    //    self.attributedText = [[NSAttributedString alloc]initWithString:self.text attributes:attributes];
     
     // 设置光标位置
     UIEdgeInsets selfEdgeInsets = self.textContainerInset;
     selfEdgeInsets.left = PADDING;
     selfEdgeInsets.right = PADDING;
-    if (self.clearBtnMode != RKOTextFieldViewModeNever) {
-        selfEdgeInsets.right = self.clearBtn.frame.origin.x + PADDING * 8;
-    }
+    //    if (self.clearBtnMode != RKOTextFieldViewModeNever) {
+    //        selfEdgeInsets.right = self.clearBtn.frame.origin.x + PADDING * 8;
+    //    }
     
     self.textContainerInset = selfEdgeInsets;
     
@@ -94,8 +94,8 @@
     self.showsHorizontalScrollIndicator = NO;
     self.enablesReturnKeyAutomatically = YES;
     
-    // TextView的高度自适应
-    [self fitHight:self];
+    // 设置代理，监听文字输入
+    self.delegate = self;
 }
 
 #pragma mark - 系统方法
@@ -116,56 +116,57 @@
     // TextView的高度自适应
     [self fitHight:self];
     
-    // 对clear button进行布局。
-    if (self.clearBtnMode != RKOTextFieldViewModeNever) {
-        [self layoutClearButton];
-    }
-    
     // 对占位符Label进行布局
     if (self.placeholderLabel) {
         [self layoutPlaceholderLabel];
     }
+    /*
+     // 对clear button进行布局。
+     if (self.clearBtnMode != RKOTextFieldViewModeNever) {
+     [self layoutClearButton];
+     }
+     */
 }
 
 - (void)textViewDidBeginEditing:(UITextView *)textView {
     
-    // 在开始编辑的时候.
-    switch (self.clearBtnMode) {
-            // 如果ClearButton的类型是RKOTextFieldViewModeWhileEditing，则显示清除按钮。
-        case RKOTextFieldViewModeWhileEditing:
-            if (self.text.length != 0) {
-                self.clearBtn.hidden = NO;
-            }
-            break;
-            
-            // 如果ClearButton的类型是RKOTextFieldViewModeUnlessEditing，则隐藏清除按钮。
-        case RKOTextFieldViewModeUnlessEditing:
-            self.clearBtn.hidden = YES;
-            break;
-            
-        default: break;
-    }
+    //    // 在开始编辑的时候.
+    //    switch (self.clearBtnMode) {
+    //            // 如果ClearButton的类型是RKOTextFieldViewModeWhileEditing，则显示清除按钮。
+    //        case RKOTextFieldViewModeWhileEditing:
+    //            if (self.text.length != 0) {
+    //                self.clearBtn.hidden = NO;
+    //            }
+    //            break;
+    //
+    //            // 如果ClearButton的类型是RKOTextFieldViewModeUnlessEditing，则隐藏清除按钮。
+    //        case RKOTextFieldViewModeUnlessEditing:
+    //            self.clearBtn.hidden = YES;
+    //            break;
+    //
+    //        default: break;
+    //    }
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView {
     
     // 在编辑结束的时候
-    switch (self.clearBtnMode) {
-            // 如果ClearButton的类型是RKOTextFieldViewModeUnlessEditing，则在输入结束的时候显示。
-        case RKOTextFieldViewModeUnlessEditing:
-            if (self.text.length != 0) {
-                self.clearBtn.hidden = NO;
-                // 显示到最上层。
-                [[UIApplication sharedApplication].delegate.window bringSubviewToFront:self.clearBtn];
-            }
-            break;
-            // 如果ClearButton的类型是RKOTextFieldViewModeWhileEditing，则在结束输入的时候隐藏。
-        case RKOTextFieldViewModeWhileEditing:
-            self.clearBtn.hidden = YES;
-            break;
-            
-        default: break;
-    }
+    //    switch (self.clearBtnMode) {
+    //            // 如果ClearButton的类型是RKOTextFieldViewModeUnlessEditing，则在输入结束的时候显示。
+    //        case RKOTextFieldViewModeUnlessEditing:
+    //            if (self.text.length != 0) {
+    //                self.clearBtn.hidden = NO;
+    //                // 显示到最上层。
+    //                [[UIApplication sharedApplication].delegate.window bringSubviewToFront:self.clearBtn];
+    //            }
+    //            break;
+    //            // 如果ClearButton的类型是RKOTextFieldViewModeWhileEditing，则在结束输入的时候隐藏。
+    //        case RKOTextFieldViewModeWhileEditing:
+    //            self.clearBtn.hidden = YES;
+    //            break;
+    //
+    //        default: break;
+    //    }
 }
 
 // 监听文字改变
@@ -211,16 +212,16 @@
     self.placeholderLabel.hidden = self.hasText;
     
     // 根据ClearButton的显示时机设置什么时候显示ClearButton
-    switch (self.clearBtnMode) {
-        case RKOTextFieldViewModeAlways:
-        case RKOTextFieldViewModeWhileEditing:
-            // 当编辑时显示清除按钮
-            self.clearBtn.hidden = !self.hasText;
-            // 显示到最上层。
-            [[UIApplication sharedApplication].delegate.window bringSubviewToFront:self.clearBtn];
-            
-        default: break;
-    }
+    //    switch (self.clearBtnMode) {
+    //        case RKOTextFieldViewModeAlways:
+    //        case RKOTextFieldViewModeWhileEditing:
+    //            // 当编辑时显示清除按钮
+    //            self.clearBtn.hidden = !self.hasText;
+    //            // 显示到最上层。
+    //            [[UIApplication sharedApplication].delegate.window bringSubviewToFront:self.clearBtn];
+    //
+    //        default: break;
+    //    }
     
     // TextView的高度自适应
     [self fitHight:textView];
@@ -410,117 +411,121 @@
 }
 
 #pragma mark - 清除按钮
-// 重写set方法，如果设置了clearBtnMode再创建按钮
-- (void)setClearBtnMode:(RKOTextFieldViewMode)clearBtnMode {
-    
-    self.clearBtn = nil;
-    
-    if (clearBtnMode != RKOTextFieldViewModeNever) {
-        _clearBtnMode = clearBtnMode;
-        // 创建清除按钮
-        [self createClearButton];
-    }
-}
-
-// 初始化清除按钮。
-- (void)createClearButton {
-    
-    // 创建一个自定义btn
-    self.clearBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    
-    // 图片路径
-    // 为通过copy文件夹方式获取图片路径的宏
-#define RKOTextViewSrcName(file) [@"ClearBtnImg.bundle" stringByAppendingPathComponent:file]
-    // 为通过cocoapods下载安装获取图片路径的宏
-#define RKOTextViewFrameworkSrcName(file) [@"Frameworks/RKOTools.framework/ClearBtnImg.bundle" stringByAppendingPathComponent:file]
-    
-    // 设置图片
-    UIImage *img = [UIImage imageNamed:RKOTextViewSrcName(@"clear_btn_RKOTextView.png")]?:[UIImage imageNamed:RKOTextViewFrameworkSrcName(@"clear_btn_RKOTextView.png")];
-    self.imgSize = img.size;
-    [self.clearBtn setImage:img forState:UIControlStateNormal];
-    
-    // 设置初始为隐藏
-    _clearBtn.hidden = YES;
-    
-    // 将清除按钮添加到根视图，防止随着内容一起滚动。
-    [[UIApplication sharedApplication].delegate.window addSubview:self.clearBtn];
-    
-    // 添加点击事件，清空输入内容
-    [self.clearBtn addTarget:self action:@selector(clearTextViewContent) forControlEvents:UIControlEventTouchUpInside];
-}
-
-// ClearButton点击事件
-- (void)clearTextViewContent {
-    // 清空输入内容
-    self.text = @"";
-    
-    // 清空内容后禁止滚动
-    self.scrollEnabled = NO;
-    
-    // 隐藏清除按钮，显示占位符，更新高度。
-    [self judgmentSubviewsDisplayed:self];
-    
-    // 提供代理，供用户监听输入
-    if (self.textViewDelegate && [self.textViewDelegate respondsToSelector:@selector(textViewDidChange:)]) {
-        [self.textViewDelegate textViewDidChange:self];
-    }
-}
-
-- (void)layoutClearButton {
-    
-    // 设置frame，始终对于TextView的垂直居中。
-    CGPoint point = self.frame.origin;
-    
-    CGFloat btnX = self.frame.size.width - self.imgSize.width - PADDING * 1.5;
-    CGFloat btnY = (self.frame.size.height - self.imgSize.height) * 0.5;
-    
-    UIViewController *vc = [[UIApplication sharedApplication].keyWindow rootViewController];
-    UINavigationController *naviVC = nil;
-    if ([vc isKindOfClass:[UITabBarController class]]) {
-        UITabBarController *tabBarVC = (UITabBarController *)vc;
-        
-        if ([[tabBarVC selectedViewController] isKindOfClass:[UINavigationController class]]) {
-            naviVC = [tabBarVC selectedViewController];
-        }
-        
-    } else if ([vc isKindOfClass:[UINavigationController class]]){
-        naviVC = (UINavigationController *)[[UIApplication sharedApplication].keyWindow rootViewController];
-    }
-    
-    if (naviVC) {
-        // Navigation的高度
-        CGFloat navigationH = naviVC.navigationBar.frame.size.height;
-        
-        // 状态栏的高度
-        CGFloat statusbarH = [[UIApplication sharedApplication] statusBarFrame].size.height;
-        
-        CGFloat alertViewH = navigationH + statusbarH;
-        
-        btnY += alertViewH;
-    }
-    
-    self.clearBtn.frame = CGRectMake(btnX + point.x, btnY + point.y, self.imgSize.width, self.imgSize.height);
-}
-
+/*
+ // 重写set方法，如果设置了clearBtnMode再创建按钮
+ - (void)setClearBtnMode:(RKOTextFieldViewMode)clearBtnMode {
+ 
+ self.clearBtn = nil;
+ 
+ if (clearBtnMode != RKOTextFieldViewModeNever) {
+ _clearBtnMode = clearBtnMode;
+ // 创建清除按钮
+ [self createClearButton];
+ }
+ }
+ 
+ // 初始化清除按钮。
+ - (void)createClearButton {
+ 
+ // 创建一个自定义btn
+ self.clearBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+ 
+ // 图片路径
+ // 为通过copy文件夹方式获取图片路径的宏
+ #define RKOTextViewSrcName(file) [@"ClearBtnImg.bundle" stringByAppendingPathComponent:file]
+ // 为通过cocoapods下载安装获取图片路径的宏
+ #define RKOTextViewFrameworkSrcName(file) [@"Frameworks/RKOTools.framework/ClearBtnImg.bundle" stringByAppendingPathComponent:file]
+ 
+ // 设置图片
+ UIImage *img = [UIImage imageNamed:RKOTextViewSrcName(@"clear_btn_RKOTextView.png")]?:[UIImage imageNamed:RKOTextViewFrameworkSrcName(@"clear_btn_RKOTextView.png")];
+ self.imgSize = img.size;
+ [self.clearBtn setImage:img forState:UIControlStateNormal];
+ 
+ // 根据初始是否有文字判断初始是否隐藏
+ _clearBtn.hidden = !self.hasText;
+ 
+ // 将清除按钮添加到根视图，防止随着内容一起滚动。
+ [[UIApplication sharedApplication].delegate.window addSubview:self.clearBtn];
+ 
+ // 添加点击事件，清空输入内容
+ [self.clearBtn addTarget:self action:@selector(clearTextViewContent) forControlEvents:UIControlEventTouchUpInside];
+ 
+ // 根据初始状态判断子控件是否显示
+ [self judgmentSubviewsDisplayed:self];
+ }
+ 
+ // ClearButton点击事件
+ - (void)clearTextViewContent {
+ // 清空输入内容
+ self.text = @"";
+ 
+ // 清空内容后禁止滚动
+ self.scrollEnabled = NO;
+ 
+ // 隐藏清除按钮，显示占位符，更新高度。
+ [self judgmentSubviewsDisplayed:self];
+ 
+ // 提供代理，供用户监听输入
+ if (self.textViewDelegate && [self.textViewDelegate respondsToSelector:@selector(textViewDidChange:)]) {
+ [self.textViewDelegate textViewDidChange:self];
+ }
+ }
+ 
+ - (void)layoutClearButton {
+ 
+ // 设置frame，始终对于TextView的垂直居中。
+ CGPoint point = self.frame.origin;
+ 
+ NSLog(@"%@",NSStringFromCGPoint(point));
+ 
+ CGFloat btnX = self.frame.size.width - self.imgSize.width - PADDING * 1.5;
+ CGFloat btnY = (self.frame.size.height - self.imgSize.height) * 0.5;
+ 
+ UIViewController *vc = [[UIApplication sharedApplication].keyWindow rootViewController];
+ UINavigationController *naviVC = nil;
+ if ([vc isKindOfClass:[UITabBarController class]]) {
+ UITabBarController *tabBarVC = (UITabBarController *)vc;
+ 
+ if ([[tabBarVC selectedViewController] isKindOfClass:[UINavigationController class]]) {
+ naviVC = [tabBarVC selectedViewController];
+ }
+ 
+ } else if ([vc isKindOfClass:[UINavigationController class]]){
+ naviVC = (UINavigationController *)[[UIApplication sharedApplication].keyWindow rootViewController];
+ }
+ 
+ if (naviVC) {
+ // Navigation的高度
+ CGFloat navigationH = naviVC.navigationBar.frame.size.height;
+ 
+ // 状态栏的高度
+ CGFloat statusbarH = [[UIApplication sharedApplication] statusBarFrame].size.height;
+ 
+ CGFloat alertViewH = navigationH + statusbarH;
+ 
+ btnY += alertViewH;
+ }
+ 
+ self.clearBtn.frame = CGRectMake(btnX + point.x, btnY + point.y, self.imgSize.width, self.imgSize.height);
+ }
+ */
 #pragma mark - 占位符
 // 初始化占位符Lable
 - (void)createPlaceholderLabel {
     
     // 创建并设置占位符Label
-    UILabel *placeholderLabel = [[UILabel alloc] init];
+    self.placeholderLabel = [[UILabel alloc] init];
     
-    placeholderLabel.backgroundColor = [UIColor clearColor];
-    placeholderLabel.numberOfLines = 0;
+    self.placeholderLabel.backgroundColor = [UIColor clearColor];
+    self.placeholderLabel.numberOfLines = 0;
     //设置占位文字默认颜色
-    placeholderLabel.textColor = [UIColor lightGrayColor];
+    self.placeholderLabel.textColor = [UIColor lightGrayColor];
     
     // 添加视图
-    [self addSubview:placeholderLabel];
+    [self addSubview:self.placeholderLabel];
     
-    // 设置代理，监听文字输入
-    self.delegate = self;
-    
-    self.placeholderLabel = placeholderLabel;
+    // 根据初始状态判断子控件是否显示
+    [self judgmentSubviewsDisplayed:self];
 }
 
 // 对占位符Label进行布局
@@ -539,12 +544,16 @@
 
 // 重写字体的设置方法，保证两个字的大小一样
 - (void)setFont:(UIFont *)font {
+    [super setFont:font];
+    
+    if (self.myPlaceholder || self.myPlaceholder.length == 0) {
+        return;
+    }
+    
     // 如果传nil的话则为系统默认大小。
     if (!font) {
         font = [UIFont systemFontOfSize:[UIFont systemFontSize]];
     }
-    
-    [super setFont:font];
     
     // 修改占位符文字的大小。
     self.placeholderLabel.font = font;
