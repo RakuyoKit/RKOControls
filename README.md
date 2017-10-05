@@ -42,7 +42,7 @@
 ### RKOTextView
 
 <p align="left">
-<a href=""><img src="https://img.shields.io/badge/pod-v1.0.5-brightgreen.svg"></a>
+<a href=""><img src="https://img.shields.io/badge/pod-v1.1.0-brightgreen.svg"></a>
 <a href=""><img src="https://img.shields.io/badge/ObjectiveC-compatible-orange.svg"></a>
 <a href=""><img src="https://img.shields.io/badge/platform-iOS%207.0%2B-ff69b5152950834.svg"></a>
 <a href="https://github.com/rakuyoMo/RKOTools/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg?style=flat"></a>
@@ -53,22 +53,26 @@
 #### 集成：
 
 ```shell
- pod 'RKOTextView', '~> 1.0.5'
+ pod 'RKOTextView', '~> 1.1.0'
 ```
 
 #### 基本使用：
 
 ```objc
 // 设置大小位置。
-CGRect frame = CGRectMake(100, 300, 200, 200);
+CGRect frame = CGRectMake(15, 250, 340, 100);
     
-// 设置样式
+// 设置样式。
 RKOTextView *textViewWithCode = [RKOTextView textViewWithFrame:frame
                                                    placeholder:@"纯代码创建..."
                                                           font:[UIFont systemFontOfSize:18]
-                                                     maxNumber:50
-                                              maxNumberOfLines:4
-                                                    needBorder:YES];
+                                               limitInputRange:YES
+                                                 maxCharacters:50
+                                                       maxRows:3];
+    
+// 需要边框，默认不显示。
+textViewWithCode.needBorder = YES;
+    
 // 添加视图
 [self.view addSubview:textViewWithCode];
 ```
