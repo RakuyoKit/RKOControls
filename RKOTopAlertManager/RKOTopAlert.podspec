@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "RKOTopAlert"
-  s.version      = "1.0.3"
+  s.version      = "1.0.4"
   s.summary      = "Appears at the top of the notification view"
   s.description  = <<-DESC
             Appears at the top of the notification view
@@ -23,10 +23,12 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = "7.0"
 
-  s.source       = { :git => "https://github.com/rakuyoMo/RKOControls.git", :tag => "1.0.7" } # #{s.version}
+  s.source       = { :git => "https://github.com/rakuyoMo/RKOControls.git", :tag => "1.0.9" } # #{s.version}
 
   s.requires_arc = true
 
   s.source_files = "RKOTopAlertManager/RKOTopAlert/RKOTopAlert/RKOTopAlert/*.{h,m}"
+
+  s.resources    = "RKOTopAlertManager/RKOTopAlert/RKOTopAlert/RKOTopAlert/*.{png,xib,nib,bundle}"
 
 end

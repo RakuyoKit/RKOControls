@@ -14,6 +14,7 @@
 		AE41FC721F6248BE00959ED0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AE41FC711F6248BE00959ED0 /* Assets.xcassets */; };
 		AE41FC751F6248BE00959ED0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE41FC731F6248BE00959ED0 /* LaunchScreen.storyboard */; };
 		AE41FC7F1F6248CF00959ED0 /* RKOTopAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = AE41FC7E1F6248CF00959ED0 /* RKOTopAlert.m */; };
+		AEE5A8831FAC3C830010688D /* icon.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AEE5A8821FAC3C830010688D /* icon.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		AE41FC761F6248BE00959ED0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AE41FC7D1F6248CF00959ED0 /* RKOTopAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKOTopAlert.h; sourceTree = "<group>"; };
 		AE41FC7E1F6248CF00959ED0 /* RKOTopAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKOTopAlert.m; sourceTree = "<group>"; };
+		AEE5A8821FAC3C830010688D /* icon.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = icon.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +90,7 @@
 			children = (
 				AE41FC7D1F6248CF00959ED0 /* RKOTopAlert.h */,
 				AE41FC7E1F6248CF00959ED0 /* RKOTopAlert.m */,
+				AEE5A8821FAC3C830010688D /* icon.bundle */,
 			);
 			path = RKOTopAlert;
 			sourceTree = "<group>";
@@ -151,6 +154,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AEE5A8831FAC3C830010688D /* icon.bundle in Resources */,
 				AE41FC751F6248BE00959ED0 /* LaunchScreen.storyboard in Resources */,
 				AE41FC721F6248BE00959ED0 /* Assets.xcassets in Resources */,
 				AE41FC701F6248BE00959ED0 /* Main.storyboard in Resources */,
@@ -326,6 +330,7 @@
 				AE41FC7B1F6248BE00959ED0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

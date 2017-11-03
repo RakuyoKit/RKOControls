@@ -1,7 +1,7 @@
 # RKOTopAlert
 
 <p align="center">
-<a href=""><img src="https://img.shields.io/badge/pod-v1.0.3-brightgreen.svg"></a>
+<a href=""><img src="https://img.shields.io/badge/pod-v1.0.4-brightgreen.svg"></a>
 <a href=""><img src="https://img.shields.io/badge/ObjectiveC-compatible-orange.svg"></a>
 <a href=""><img src="https://img.shields.io/badge/platform-iOS%207.0%2B-ff69b5152950834.svg"></a>
 <a href="https://github.com/rakuyoMo/RKOTools/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg?style=flat"></a>
@@ -13,7 +13,7 @@
 
 随仓库配套了一个简单的 **演示Demo**，方便大家使用参考。
 
-可以设置**提示文字**、**文字颜色**、**背景颜色**。
+可以设置**提示文字**、**文字颜色**、**背景颜色**、**提醒图标**。
 
 **高度**为`Status` + `NavigationBar`的高度。（不论您的`ViewController`是否添加到`NavigationController`中）
 
@@ -32,7 +32,7 @@
 ## 集成
 
 ```shell
- pod 'RKOTopAlert', '~> 1.0.3'
+ pod 'RKOTopAlert', '~> 1.0.4'
 ```
 
 ## 使用
@@ -40,7 +40,7 @@
 使用下面的方法创建一个`Alert`视图，对`Alert`视图调用 `alertAppearWithDuration` 并设置时候，即可弹出 `Alert`视图。
 
 ```objc
-RKOTopAlert *topAlert = [RKOTopAlert alertViewWithText:@"提示文字" textColor:[UIColor whiteColor] ackgroundColor:[UIColor redColor]];
+RKOTopAlert *topAlert = [RKOTopAlert alertViewWithText:@"提示文字" textColor:[UIColor whiteColor] backgroundColor:[UIColor redColor] iconImageName:nil];
     
 [topAlert alertAppearWithDuration:2.0];
 ```
@@ -53,7 +53,7 @@ RKOTopAlert *topAlert = [RKOTopAlert alertViewWithText:@"提示文字" textColor
 
 // 懒加载属性，创建对象并设置样式。
 - (RKOTopAlert *)topAlert {
-    return [RKOTopAlert alertViewWithText:@"在AppDelegate中总体设置" textColor:[UIColor blackColor] ackgroundColor:[UIColor orangeColor]];
+    return [RKOTopAlert alertViewWithText:@"在AppDelegate中总体设置" textColor:[UIColor blackColor] backgroundColor:[UIColor orangeColor] iconImageName:nil];
 }
 
 // 在按钮方法或其它方法中，获取属性调用弹出方法。
@@ -68,16 +68,18 @@ RKOTopAlert *topAlert = [RKOTopAlert alertViewWithText:@"提示文字" textColor
 
 ```objc
 /**
- * 设置提示窗的样式，并弹出提示窗。（其对象参数均不可为nil。）
+ * 设置提示窗的样式，并弹出提示窗。
  
  * @param text 提示窗显示文字。
  * @param textColor 文字颜色。
  * @param backgroundColor 提示窗背景颜色。
+ * @param iconImageName 左侧提示图标的图片名。
  * @return 调用对象本身
  */
 + (instancetype)alertViewWithText:(NSString *)text
                         textColor:(UIColor *)textColor
-                   ackgroundColor:(UIColor *)backgroundColor;
+                  backgroundColor:(UIColor *)backgroundColor
+                    iconImageName:(nullable NSString *)iconImageName;
 ```
 
 此外，我们分别提供了弹窗弹窗的**弹出**方法与**消失**方法，方便您动态地控制弹窗的弹出与消失：

@@ -19,8 +19,11 @@ struct {
 
 @interface RKOTopAlert()
 
-// 提示内容的Label
+// 提示内容的 Label
 @property (nonatomic, strong) UILabel *contentLable;
+
+// 图标的 View
+@property (nonatomic, strong) UIImageView *iconView;
 
 // 标记视图将要消失
 @property (nonatomic, assign) BOOL alertWillDisappear;
@@ -63,26 +66,28 @@ struct {
 }
 
 // 设置样式并提示窗
-+ (instancetype)alertViewWithText:(NSString *)text textColor:(UIColor *)textColor ackgroundColor:(UIColor *)backgroundColor {
++ (instancetype)alertViewWithText:(NSString *)text textColor:(UIColor *)textColor backgroundColor:(UIColor *)backgroundColor iconImageName:(nullable NSString *)iconImageName {
     
     // 创建对象并设置样式。
-    return [[self sharedManager] alertViewWithText:text textColor:textColor ackgroundColor:backgroundColor];
+    return [[self sharedManager] alertViewWithText:text textColor:textColor backgroundColor:backgroundColor iconImageName:iconImageName];
 }
 
 // 设置样式。
-- (instancetype)alertViewWithText:(NSString *)text textColor:(UIColor *)textColor ackgroundColor:(UIColor *)backgroundColor {
+- (instancetype)alertViewWithText:(NSString *)text textColor:(UIColor *)textColor backgroundColor:(UIColor *)backgroundColor iconImageName:(nullable NSString *)iconImageName {
     
     // 如果已经被添加，则不再出现。
     if (self.superview) {
         return self;
     }
     
+    // 是否设置了 icon
+    BOOL hasIcon = !iconImageName || iconImageName.length <= 0 || [iconImageName isEqualToString:@" "];
+    
     // 设置背景颜色。
     self.backgroundColor = backgroundColor;
     
-    // 初始化按钮
-    self.contentLable = [[UILabel alloc] initWithFrame:CGRectMake(0, topHight.statusbarH, self.frame.size.width, topHight.navigationH)];
-    
+    // 初始化 Label
+    self.contentLable = [[UILabel alloc] init];
     // 设置提示内容。
     self.contentLable.text = text;
     // 设置文字颜色。
@@ -94,6 +99,28 @@ struct {
     
     // 水平居中
     self.contentLable.textAlignment = NSTextAlignmentCenter;
+    
+    // 基础样式
+    if (!hasIcon) {
+        
+        self.contentLable.frame = CGRectMake(0, topHight.statusbarH, self.frame.size.width, topHight.navigationH);
+        
+        return self;
+    }
+    
+    // 带有 icon 的样式
+    UIImage *image = [UIImage imageNamed:iconImageName];
+    self.iconView = [[UIImageView alloc] initWithImage:image];
+    self.iconView.contentMode = UIViewContentModeScaleAspectFit;
+    
+    [self.contentLable sizeToFit];
+    
+    CGFloat padding = 10.0f;
+    CGFloat leftPadding = (self.frame.size.width - image.size.width - self.contentLable.frame.size.width - padding) * 0.5;
+    
+    self.iconView.frame = CGRectMake(leftPadding, topHight.statusbarH, 17, topHight.navigationH);
+    
+    self.contentLable.frame = CGRectMake(CGRectGetMaxX(self.iconView.frame) + padding, topHight.statusbarH, self.contentLable.frame.size.width, topHight.navigationH);
     
     return self;
 }
@@ -109,6 +136,9 @@ struct {
     
     // 添加视图
     [self addSubview:self.contentLable];
+    if (self.iconView) {
+        [self addSubview:self.iconView];
+    }
     
     UIWindow *keyWindow = [UIApplication sharedApplication].delegate.window;
     [keyWindow addSubview:self];
@@ -159,9 +189,11 @@ struct {
                          
                          if (finished) {
                              // 从父视图中移除。
+                             if (weakSelf.iconView) {
+                                 [weakSelf.iconView removeFromSuperview];
+                             }
                              [weakSelf.contentLable removeFromSuperview];
                              [weakSelf removeFromSuperview];
-                             
                          }
                      }];
 }

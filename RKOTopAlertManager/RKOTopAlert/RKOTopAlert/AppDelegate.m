@@ -17,7 +17,7 @@
 
 #pragma mark - Top Alert
 - (RKOTopAlert *)topAlert {
-    return [RKOTopAlert alertViewWithText:@"在AppDelegate中总体设置" textColor:[UIColor blackColor] ackgroundColor:[UIColor orangeColor]];
+    return [RKOTopAlert alertViewWithText:@"在AppDelegate中总体设置" textColor:[UIColor blackColor] backgroundColor:[UIColor orangeColor] iconImageName:nil];
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {

@@ -8,28 +8,36 @@
 
 #import <UIKit/UIKit.h>
 
+// 图片路径
+// 为通过copy文件夹方式获取图片路径的宏
+#define RKOControlsSrcName(fileName) [@"icon.bundle" stringByAppendingPathComponent:fileName]
+// 为通过cocoapods下载安装获取图片路径的宏
+#define RKOControlsFrameworkSrcName(fileName) [@"Frameworks/RKOTools.framework/icon.bundle" stringByAppendingPathComponent:fileName]
+
 // 弹出动画的持续时间。
 #define ALERT_APPEAR_ANIMATE_DURATION 0.4f
 // 消失动画的持续时间。
 #define ALERT_DISAPPEAR_ANIMATE_DURATION 0.3f
 // 提示文字的字体大小。
-#define FONTSIZE 20
+#define FONTSIZE hasIcon ? 16 : 20
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface RKOTopAlert : UIView
 
 /**
- * 设置提示窗的样式，并弹出提示窗。（其对象参数均不可为nil。）
+ * 设置提示窗的样式，并弹出提示窗。
  
  * @param text 提示窗显示文字。
  * @param textColor 文字颜色。
  * @param backgroundColor 提示窗背景颜色。
+ * @param iconImageName 左侧提示图标的图片名。
  * @return 调用对象本身
  */
 + (instancetype)alertViewWithText:(NSString *)text
                         textColor:(UIColor *)textColor
-                   ackgroundColor:(UIColor *)backgroundColor;
+                  backgroundColor:(UIColor *)backgroundColor
+                    iconImageName:(nullable NSString *)iconImageName;
 
 /**
  * 弹出提示窗的方法。
