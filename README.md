@@ -99,8 +99,8 @@ textViewWithCode.needBorder = YES;
 #### 使用：
 
 ```objc
-RKOTopAlert *topAlert = [RKOTopAlert alertViewWithText:@"提示文字" textColor:[UIColor whiteColor] ackgroundColor:[UIColor redColor]];
-    
+RKOTopAlert *topAlert = [RKOTopAlert alertViewWithText:@"提示文字" textColor:[UIColor whiteColor] backgroundColor:[UIColor redColor] iconImageName:nil];
+
 [topAlert alertAppearWithDuration:2.0];
 ```
 
