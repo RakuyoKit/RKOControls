@@ -93,7 +93,7 @@ textViewWithCode.needBorder = YES;
 #### 集成：
 
 ```shell
- pod 'RKOTopAlert', '~> 1.0.4'
+ pod 'RKOTopAlert', '~> 1.0.5'
 ```
 
 #### 使用：
@@ -122,7 +122,7 @@ RKOTopAlert *topAlert = [RKOTopAlert alertViewWithText:@"提示文字" textColor
 ### 集成：
 
 ```shell
- pod 'RKOTools', '~> 1.4.2'
+ pod 'RKOTools', '~> 1.4.4'
 ```
 
 ---------------------------------------------------------------------

@@ -80,8 +80,9 @@ struct {
         return self;
     }
     
-    // 是否设置了 icon
-    BOOL hasIcon = !iconImageName || iconImageName.length <= 0 || [iconImageName isEqualToString:@" "];
+    // 是否设置了 icon / 文件名包含空格按照未设置 icon 处理
+    BOOL hasSpace = ([iconImageName rangeOfString:@" "].location && [iconImageName rangeOfString:@" "].location != NSNotFound);
+    BOOL hasIcon = iconImageName && (iconImageName.length > 0 || hasSpace);
     
     // 设置背景颜色。
     self.backgroundColor = backgroundColor;
@@ -102,7 +103,6 @@ struct {
     
     // 基础样式
     if (!hasIcon) {
-        
         self.contentLable.frame = CGRectMake(0, topHight.statusbarH, self.frame.size.width, topHight.navigationH);
         
         return self;
