@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "RKOTextView"
-  s.version      = "1.1.0"
+  s.version      = "1.1.1"
   s.summary      = "A UITextView package"
   s.description  = <<-DESC
             A UITextView package
@@ -21,9 +21,9 @@ Pod::Spec.new do |s|
 
   s.author       = { "Rakuyo" => "rakuyo.mo@gmail.com" }
 
-  s.ios.deployment_target = "7.0"
+  s.ios.deployment_target = "9.0"
 
-  s.source       = { :git => "https://github.com/rakuyoMo/RKOControls.git", :tag => "1.0.8" } # #{s.version}
+  s.source       = { :git => "https://github.com/rakuyoMo/RKOControls.git", :tag => "1.3.12" } # #{s.version}
 
   s.requires_arc = true
 

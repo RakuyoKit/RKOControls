@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class RKOTextView;
 
-#pragma mark - 代理。
+#pragma mark - delegate
 @protocol RKOTextViewDelegate <NSObject, UITextViewDelegate>
 @optional
 
@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  * 自定义 UITextView ，适配纯代码及 xib、storyboard。
- 
+ *
  * 本控件额外提供以下功能：
  *
  * 1. 兼容 stroyboard、xib 以及纯代码。
@@ -42,10 +42,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface RKOTextView : UITextView
 
-#pragma mark - 方法。
+#pragma mark - method
 
 /**
- * 快速创建对象并设置其样式。（若您使用纯代码方式，推荐使用该方法。）
+ * 快速创建对象并设置其样式。
+ *（若您使用纯代码且不使用自动布局，那么推荐使用该方法。）
  *
  * @param frame 视图大小及位置（若您需要自适应视图的高度，请在高度处填 0 ）
  * @param placeholder 占位符文字
@@ -62,23 +63,31 @@ NS_ASSUME_NONNULL_BEGIN
                      maxCharacters:(NSUInteger)maxCharacters
                            maxRows:(NSUInteger)maxRows;
 
-#pragma mark - 属性。
+#pragma mark - property
 
-/** 代理 */
-@property (nonatomic, weak) id<RKOTextViewDelegate> textViewDelegate;
+/**
+ *  代理
+ *  请使用该代理来代替 TextView 原先的 delegate，不要再对 delegate 进行修改/赋值。
+ */
+@property (nonatomic, weak) id<RKOTextViewDelegate> rko_textViewDelegate;
 
-/** 占位符文字。 */
-@property (nonatomic, copy, nullable) IBInspectable NSString * placeholder;
+/**
+ *  占位符文字。
+ *  请注意，先设置 TextView 的 text，再设置 placeholder
+ */
+@property (nonatomic, copy, nullable) IBInspectable NSString *placeholder;
 
-/** 开启该属性后，在达到最大行数时将无法进行输入。（优先级于最大字符数，但要同时设置最大行数） */
+/**
+ *  开启该属性后，在达到最大行数时将无法进行输入。
+ *  （优先级于最大字符数，但要同时设置最大行数）
+ */
 @property (nonatomic, assign) IBInspectable BOOL limitInputRange;
 
-/** 可输入的最大字符数（优先于最大行数）。 */
+/** 可输入的最大字符数（优先于最大行数） */
 @property (nonatomic, assign) IBInspectable NSUInteger maxCharacters;
 
-/** TextView 显示的最大行数。 */
+/** TextView 显示的最大行数 */
 @property (nonatomic, assign) IBInspectable NSUInteger maxRows;
-
 
 /** 是否显示本控件提供的边框 */
 @property (nonatomic, assign) IBInspectable BOOL needBorder;

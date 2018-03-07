@@ -44,24 +44,26 @@
     textView.maxCharacters = maxCharacters;
     textView.maxRows = maxRows;
     
-    // 设置样式。
-    [textView configTextViewStyle];
-    
     return textView;
+}
+
+- (instancetype)init {
+    if (self = [super init]) {
+        [self configDefineSytle];
+    }
+    return self;
 }
 
 // 当从storyboard/xib中初始化该控件的时候
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    
     if (!(self = [super initWithCoder:aDecoder])) return nil;
     
-    // 设置样式
-    [self configTextViewStyle];
+    [self configDefineSytle];
     
     return self;
 }
 
-- (void)configTextViewStyle {
+- (void)configDefineSytle {
     
     // 设置行间距以及换行模式。
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
@@ -85,16 +87,9 @@
     self.showsHorizontalScrollIndicator = NO;
     self.enablesReturnKeyAutomatically = YES;
     
-    // 初始属性。
-    self.needBorder = NO;
+    // 记录上次输入内容
+    self.lastTimeInput = self.hasText ? self.text : @"";
     
-    if (self.hasText) {
-        self.lastTimeInput = self.text;
-    } else {
-        self.lastTimeInput = [NSString string];
-    }
-    
-    // 设置代理，监听文字输入
     self.delegate = self;
 }
 
@@ -140,8 +135,8 @@
     }
     
     // 提供代理，供用户监听输入
-    if (self.textViewDelegate && [self.textViewDelegate respondsToSelector:@selector(textViewDidChange:)]) {
-        [self.textViewDelegate textViewDidChange:textView];
+    if (self.rko_textViewDelegate && [self.rko_textViewDelegate respondsToSelector:@selector(textViewDidChange:)]) {
+        [self.rko_textViewDelegate textViewDidChange:textView];
     }
 }
 
@@ -153,8 +148,8 @@
         return [self limitInputWithTextView:textView range:range replacementText:text];
     }
     
-    if (self.textViewDelegate && [self.textViewDelegate respondsToSelector:@selector(textView:shouldChangeTextInRange:replacementText:)]) {
-        [self.textViewDelegate textView:textView shouldChangeTextInRange:range replacementText:text];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(textView:shouldChangeTextInRange:replacementText:)]) {
+        [self.delegate textView:textView shouldChangeTextInRange:range replacementText:text];
     }
     
     return YES;
@@ -297,8 +292,8 @@
     }
     
     // 显示提示窗
-    if (self.textViewDelegate && [self.textViewDelegate respondsToSelector:@selector(textViewDidAchieveMaxRows:)]) {
-        [self.textViewDelegate textViewDidAchieveMaxRows:textView];
+    if (self.rko_textViewDelegate && [self.rko_textViewDelegate respondsToSelector:@selector(textViewDidAchieveMaxRows:)]) {
+        [self.rko_textViewDelegate textViewDidAchieveMaxRows:textView];
     }
 }
 
@@ -326,8 +321,8 @@
         textView.text = str;
         
         // 显示提示窗，提示字数限制
-        if (self.textViewDelegate && [self.textViewDelegate respondsToSelector:@selector(textViewDidAchieveMaxCharacters:)]) {
-            [self.textViewDelegate textViewDidAchieveMaxCharacters:textView];
+        if (self.rko_textViewDelegate && [self.rko_textViewDelegate respondsToSelector:@selector(textViewDidAchieveMaxCharacters:)]) {
+            [self.rko_textViewDelegate textViewDidAchieveMaxCharacters:textView];
         }
     }
 }
@@ -351,9 +346,10 @@
             return YES;
         } else {
             // 显示提示窗，提示字数限制
-            if (self.textViewDelegate && [self.textViewDelegate respondsToSelector:@selector(textViewDidAchieveMaxCharacters:)]) {
-                [self.textViewDelegate textViewDidAchieveMaxCharacters:textView];
+            if (self.rko_textViewDelegate && [self.rko_textViewDelegate respondsToSelector:@selector(textViewDidAchieveMaxCharacters:)]) {
+                [self.rko_textViewDelegate textViewDidAchieveMaxCharacters:textView];
             }
+            
             return NO;
         }
     }
@@ -392,8 +388,8 @@
                                               // 取出所需要就break，提高效率
                                               *stop = YES;
                                               // 显示提示窗，提示字数限制
-                                              if (self.textViewDelegate && [self.textViewDelegate respondsToSelector:@selector(textViewDidAchieveMaxCharacters:)]) {
-                                                  [self.textViewDelegate textViewDidAchieveMaxCharacters:textView];
+                                              if (self.rko_textViewDelegate && [self.rko_textViewDelegate respondsToSelector:@selector(textViewDidAchieveMaxCharacters:)]) {
+                                                  [self.rko_textViewDelegate textViewDidAchieveMaxCharacters:textView];
                                               }
                                               return ;
                                           }
@@ -414,32 +410,15 @@
         // 判断子视图是否显示，以及适配高度
         [self judgmentSubviewsDisplayed:textView];
         // 显示提示窗，提示字数限制
-        if (self.textViewDelegate && [self.textViewDelegate respondsToSelector:@selector(textViewDidAchieveMaxCharacters:)]) {
-            [self.textViewDelegate textViewDidAchieveMaxCharacters:textView];
+        if (self.rko_textViewDelegate && [self.rko_textViewDelegate respondsToSelector:@selector(textViewDidAchieveMaxCharacters:)]) {
+            [self.rko_textViewDelegate textViewDidAchieveMaxCharacters:textView];
         }
+        
         return NO;
     }
 }
 
 #pragma mark - 占位符
-// 初始化占位符Lable
-- (void)createPlaceholderLabel {
-    
-    // 创建并设置占位符Label
-    self.placeholderLabel = [[UILabel alloc] init];
-    
-    self.placeholderLabel.backgroundColor = [UIColor clearColor];
-    self.placeholderLabel.numberOfLines = 0;
-    //设置占位文字默认颜色
-    self.placeholderLabel.textColor = [UIColor lightGrayColor];
-    
-    // 添加视图
-    [self addSubview:self.placeholderLabel];
-    
-    // 根据初始状态判断占位符是否显示
-    self.placeholderLabel.hidden = self.hasText;
-}
-
 // 对占位符Label进行布局
 - (void)layoutPlaceholderLabel {
     
@@ -454,41 +433,51 @@
     self.placeholderLabel.frame = frame;
 }
 
-// 重写字体的设置方法，保证两个字的大小一样
-- (void)setFont:(UIFont *)font {
-    [super setFont:font];
+// 重写set方法，设置占位符文字
+- (void)setPlaceholder:(NSString *)placeholder {
+    _placeholder = [placeholder copy];
     
-    if (!self.placeholder || self.placeholder.length == 0) {
-        return;
-    }
-    
-    // 如果传nil的话则为系统默认大小。
-    if (!font) {
-        font = [UIFont systemFontOfSize:[UIFont systemFontSize]];
-    }
-    
-    // 修改占位符文字的大小。
-    self.placeholderLabel.font = font;
+    //设置文字
+    self.placeholderLabel.text = placeholder;
     
     //重新计算子控件frame
     [self setNeedsLayout];
 }
 
-// 重写set方法，设置占位符文字
-- (void)setPlaceholder:(NSString *)placeholder {
+- (UILabel *)placeholderLabel {
+    if (!_placeholderLabel) {
+        _placeholderLabel = [[UILabel alloc] init];
+        
+        _placeholderLabel.backgroundColor = [UIColor clearColor];
+        _placeholderLabel.numberOfLines = 0;
+        
+        _placeholderLabel.textColor = [UIColor lightGrayColor];
+        
+        [self addSubview:_placeholderLabel];
+        
+        _placeholderLabel.hidden = self.hasText;
+    }
+    return _placeholderLabel;
+}
+
+// 保证 font 有值
+- (UIFont *)font {
+    if ([super font]) return [super font];
+    return [UIFont systemFontOfSize:[UIFont systemFontSize]];
+}
+
+// 保持占位符与 TextView 字体相同
+- (void)setFont:(UIFont *)font {
+    [super setFont:font];
     
-    _placeholder = [placeholder copy];
+    NSString *placeholder = [self.placeholder stringByReplacingOccurrencesOfString:@" " withString:@""];
     
-    // 初始化占位符Lable
-    [self createPlaceholderLabel];
-    
-    //设置文字
-    _placeholderLabel.text = placeholder;
+    if (![placeholder isEqualToString:@""] && placeholder.length != 0) {
+        self.placeholderLabel.font = font;
+    }
     
     //重新计算子控件frame
     [self setNeedsLayout];
 }
 
 @end
-
-

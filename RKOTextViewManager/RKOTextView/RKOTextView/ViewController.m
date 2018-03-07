@@ -37,7 +37,7 @@
      */
     
     // 设置代理
-    self.testTextView.textViewDelegate = self;
+    self.testTextView.rko_textViewDelegate = self;
     
     // 显示默认边框
     self.testTextView.needBorder = YES;
