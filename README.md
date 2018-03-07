@@ -14,6 +14,11 @@
 
 ## RKOControl
 
+- 版本号命名规则：
+    1. 开头的版本号代表**组织结构**的版本。不修改组织结构的话该编码不变。
+    2. 中间的版本号代表库中**可用的组件**数量。
+    3. 末尾的版本号代表当前数量下的**修复**版本。
+
 ### RKONetworkAlert
 
 <p align="left">
@@ -114,9 +119,9 @@ RKOTopAlert *topAlert = [RKOTopAlert alertViewWithText:@"单独设置提示文�
 这里安利一下我写的另外一个工具库。原本该控件库和工具库是一个库，后来觉得冗余所以将控件库单独提出来了。
 
 <p align="left">
-<a href=""><img src="https://img.shields.io/badge/pod-v1.4.2-brightgreen.svg"></a>
+<a href=""><img src="https://img.shields.io/badge/pod-v1.11.0-brightgreen.svg"></a>
 <a href=""><img src="https://img.shields.io/badge/ObjectiveC-compatible-orange.svg"></a>
-<a href=""><img src="https://img.shields.io/badge/platform-iOS%208.0%2B-ff69b5152950834.svg"></a>
+<a href=""><img src="https://img.shields.io/badge/platform-iOS%209.0%2B-ff69b5152950834.svg"></a>
 <a href="https://github.com/rakuyoMo/RKOTools/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg?style=flat"></a>
 </p>
 
@@ -125,7 +130,7 @@ RKOTopAlert *topAlert = [RKOTopAlert alertViewWithText:@"单独设置提示文�
 ### 集成：
 
 ```shell
- pod 'RKOTools', '~> 1.4.4'
+ pod 'RKOTools', '~> 1.11.0'
 ```
 
 ---------------------------------------------------------------------
