@@ -27,14 +27,21 @@
 
 - (IBAction)popAlertTwo:(id)sender {
     
-    RKOTopAlert *topAlert = [RKOTopAlert alertViewWithText:@"单独设置提示文字" textColor:[UIColor whiteColor] backgroundColor:[UIColor redColor] iconImageName:nil];
-    
+    RKOTopAlert *topAlert = [RKOTopAlert alertViewWithText:@"单独设置提示文字"
+                                                 textColor:[UIColor whiteColor]
+                                           backgroundColor:[UIColor redColor]
+                                             iconImageName:nil
+                                                      font:[UIFont systemFontOfSize:15.0f]];
     [topAlert alertAppearWithDuration:2.0];
 }
 
 - (IBAction)popAlertWithIcon:(id)sender {
     
-    RKOTopAlert *topAlert = [RKOTopAlert alertViewWithText:@"带图片的样式" textColor:[UIColor blackColor] backgroundColor:[UIColor whiteColor] iconImageName:RKOControlsSrcName(@"clear_btn_RKOTextView.png")?:RKOControlsFrameworkSrcName(@"clear_btn_RKOTextView.png")];
+    RKOTopAlert *topAlert = [RKOTopAlert alertViewWithText:@"带图片的样式"
+                                                 textColor:[UIColor blackColor]
+                                           backgroundColor:[UIColor whiteColor]
+                                             iconImageName:RKOControlsSrcName(@"clear_btn_RKOTextView.png")?:RKOControlsFrameworkSrcName(@"clear_btn_RKOTextView.png")
+                                                      font:[UIFont systemFontOfSize:15.0f]];
     
     [topAlert alertAppearWithDuration:2.0];
 }

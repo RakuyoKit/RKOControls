@@ -7,6 +7,7 @@
 //
 
 #import "RKOTopAlert.h"
+#import <Masonry/Masonry.h>
 
 #define weakify_self __weak typeof(self) weakSelf = self
 
@@ -19,44 +20,24 @@ struct {
 
 @interface RKOTopAlert()
 
-// 提示内容的 Label
 @property (nonatomic, strong) UILabel *contentLable;
-
-// 图标的 View
 @property (nonatomic, strong) UIImageView *iconView;
 
-// 标记视图将要消失
-@property (nonatomic, assign) BOOL alertWillDisappear;
+@property (nonatomic, strong) dispatch_block_t disappearBlock;
 
 @end
 
 @implementation RKOTopAlert
 
 #pragma mark - sharedManager
-+ (RKOTopAlert *)sharedManager {
++ (instancetype)sharedManager {
     static id instance = nil;
     
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         
-        // 判断是否加入到Navigation中
-        UINavigationController *vc;
-        if (![[[UIApplication sharedApplication].keyWindow rootViewController] isKindOfClass:[UINavigationController class]]) {
-            vc = [[UINavigationController alloc] init];
-        } else {
-            vc = (UINavigationController *)[[UIApplication sharedApplication].keyWindow rootViewController];
-        }
-        
-        // Navigation的高度
-        topHight.navigationH = vc.navigationBar.frame.size.height;
-        
-        // 状态栏的高度
-        topHight.statusbarH = [[UIApplication sharedApplication] statusBarFrame].size.height;
-        
-        topHight.alertViewH = topHight.navigationH + topHight.statusbarH;
-        
-        // 初始化提示窗，并设置Frame
-        instance = [[self alloc] initWithFrame:CGRectMake(0, -topHight.alertViewH, [UIScreen mainScreen].bounds.size.width, topHight.alertViewH)];
+        // 初始化提示窗
+        instance = [[self alloc] init];
         
         // 添加点击及滑动手势
         [instance addGestureRecognizer];
@@ -66,136 +47,160 @@ struct {
 }
 
 // 设置样式并提示窗
-+ (instancetype)alertViewWithText:(NSString *)text textColor:(UIColor *)textColor backgroundColor:(UIColor *)backgroundColor iconImageName:(nullable NSString *)iconImageName {
++ (instancetype)alertViewWithText:(NSString *)text
+                        textColor:(UIColor *)textColor
+                  backgroundColor:(UIColor *)backgroundColor
+                    iconImageName:(nullable NSString *)iconImageName
+                             font:(UIFont *)font {
     
-    // 创建对象并设置样式。
-    return [[self sharedManager] alertViewWithText:text textColor:textColor backgroundColor:backgroundColor iconImageName:iconImageName];
-}
-
-// 设置样式。
-- (instancetype)alertViewWithText:(NSString *)text textColor:(UIColor *)textColor backgroundColor:(UIColor *)backgroundColor iconImageName:(nullable NSString *)iconImageName {
+    RKOTopAlert *alert = [self sharedManager];
     
     // 如果已经被添加，则不再出现。
-    if (self.superview) {
-        return self;
-    }
+    if (alert.superview) return alert;
+    
+    // 计算高度
+    [alert calculateHeight];
+    
+    // 设置背景颜色。
+    alert.backgroundColor = backgroundColor;
+    
+    // 设置提示内容。
+    alert.contentLable.text = text;
+    alert.contentLable.font = font;
+    alert.contentLable.textColor = textColor;
     
     // 是否设置了 icon / 文件名包含空格按照未设置 icon 处理
     BOOL hasSpace = ([iconImageName rangeOfString:@" "].location && [iconImageName rangeOfString:@" "].location != NSNotFound);
     BOOL hasIcon = iconImageName && (iconImageName.length > 0 || hasSpace);
     
-    // 设置背景颜色。
-    self.backgroundColor = backgroundColor;
-    
-    // 初始化 Label
-    self.contentLable = [[UILabel alloc] init];
-    // 设置提示内容。
-    self.contentLable.text = text;
-    // 设置文字颜色。
-    self.contentLable.textColor = textColor;
-    // 设置字体字号
-    self.contentLable.font = [UIFont boldSystemFontOfSize:FONTSIZE];
-    // 设置背景颜色
-    self.contentLable.backgroundColor = [UIColor clearColor];
-    
-    // 水平居中
-    self.contentLable.textAlignment = NSTextAlignmentCenter;
-    
     // 基础样式
-    if (!hasIcon) {
-        self.contentLable.frame = CGRectMake(0, topHight.statusbarH, self.frame.size.width, topHight.navigationH);
-        
-        return self;
-    }
+    if (!hasIcon) { return alert; };
+    
     
     // 带有 icon 的样式
     UIImage *image = [UIImage imageNamed:iconImageName];
-    self.iconView = [[UIImageView alloc] initWithImage:image];
-    self.iconView.contentMode = UIViewContentModeScaleAspectFit;
+    alert.iconView.image = image;
     
-    [self.contentLable sizeToFit];
+    [alert.contentLable mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(alert.iconView.mas_right).offset(5);
+        make.top.equalTo(alert.mas_top);
+        make.bottom.equalTo(alert.mas_bottom);
+        make.right.equalTo(alert.mas_right);
+    }];
     
-    CGFloat padding = 10.0f;
-    CGFloat leftPadding = (self.frame.size.width - image.size.width - self.contentLable.frame.size.width - padding) * 0.5;
-    
-    self.iconView.frame = CGRectMake(leftPadding, topHight.statusbarH, 17, topHight.navigationH);
-    
-    self.contentLable.frame = CGRectMake(CGRectGetMaxX(self.iconView.frame) + padding, topHight.statusbarH, self.contentLable.frame.size.width, topHight.navigationH);
-    
-    return self;
+    return alert;
 }
 
-#pragma mark - Animate
-// 出现的动画
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    RKOTopAlert *alert = [RKOTopAlert sharedManager];
+    
+    // 重新计算高度
+    [alert calculateHeight];
+    
+    // 更新约束
+    [self mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(topHight.alertViewH);
+    }];
+    
+    [[UIApplication sharedApplication].delegate.window layoutIfNeeded];
+}
+
+#pragma mark - Event
+// 出现
 - (void)alertAppearWithDuration:(CGFloat)duration {
     
     // 如果已经被添加，则不再出现。
-    if (self.superview) {
-        return;
-    }
-    
-    // 添加视图
-    [self addSubview:self.contentLable];
-    if (self.iconView) {
-        [self addSubview:self.iconView];
-    }
+    if (self.superview) return;
     
     UIWindow *keyWindow = [UIApplication sharedApplication].delegate.window;
     [keyWindow addSubview:self];
     // 显示到最上层。
     [keyWindow bringSubviewToFront:self];
     
-    __block CGRect alertFrame = self.frame;
-    weakify_self;
-    [UIView animateWithDuration:ALERT_APPEAR_ANIMATE_DURATION animations:^{
-        // 向下移动，显示提示窗。
-        alertFrame.origin.y = 0;
-        weakSelf.frame = alertFrame;
-    } completion:^(BOOL finished) { // 显示动画完成
+    [self mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(topHight.alertViewH);
+        make.left.equalTo(keyWindow.mas_left);
+        make.right.equalTo(keyWindow.mas_right);
+        make.top.equalTo(keyWindow.mas_top).offset(-topHight.alertViewH);
+    }];
+    
+    [keyWindow layoutIfNeeded];
+    
+    [self mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(keyWindow.mas_top);
+    }];
+    
+    [UIView animateWithDuration:alertAppearAnimateDuration animations:^{
+        [keyWindow layoutIfNeeded];
+        
+    } completion:^(BOOL finished) {
         if (finished && duration != 0) {
             
-            // duration秒后横幅自动消失
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(duration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                
-                // 消失。
-                [weakSelf alertDisappear];
-                self.alertWillDisappear = NO;
-            });
+            // 延时消失。
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(duration * NSEC_PER_SEC)), dispatch_get_main_queue(), self.disappearBlock);
         }
     }];
 }
 
-// 消失的动画。
-- (void)alertDisappear {
+// 手动消失
++ (void)alertDisappear {
+    RKOTopAlert *alert = [self sharedManager];
     
-    if (self.alertWillDisappear) {
-        self.alertWillDisappear = NO;
-        return;
+    // 取消自动消失
+    // dispatch_block_cancel 会把 block 清空但是不会变为 nil。所以要手动设为nil。
+    dispatch_block_cancel(alert.disappearBlock);
+    alert.disappearBlock = nil;
+    
+    // 消失动画
+    [alert alertDisappearAutomatically];
+}
+
+// 自动消失
+- (void)alertDisappearAutomatically {
+    if (!self.superview) return;
+    
+    UIWindow *keyWindow = [UIApplication sharedApplication].delegate.window;
+    
+    // 向上移动消失。
+    [self mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(keyWindow.mas_top).offset(-topHight.alertViewH);
+    }];
+    
+    // 移除横幅动画,设置完全透明并从父视图中移除
+    [UIView animateWithDuration:alertDisappearAnimateDuration animations:^{
+        [keyWindow layoutIfNeeded];
+        
+    } completion:^(BOOL finished) {
+        if (finished) {
+            // 从父视图中移除。
+            if (self.iconView) {
+                [self.iconView removeFromSuperview];
+                self.iconView = nil;
+            }
+            [self.contentLable removeFromSuperview];
+            self.contentLable = nil;
+            
+            [self removeFromSuperview];
+        }
+    }];
+}
+
+// 计算高度
+- (void)calculateHeight {
+    // 判断是否加入到Navigation中
+    UINavigationController *vc;
+    if (![[[UIApplication sharedApplication].keyWindow rootViewController] isKindOfClass:[UINavigationController class]]) {
+        vc = [[UINavigationController alloc] init];
+    } else {
+        vc = (UINavigationController *)[[UIApplication sharedApplication].keyWindow rootViewController];
     }
     
-    __block CGRect alertFrame = self.frame;
-    weakify_self;
-    //移除横幅动画,设置完全透明并从父视图中移除
-    [UIView animateWithDuration:ALERT_DISAPPEAR_ANIMATE_DURATION
-                     animations:^{
-                         
-                         weakSelf.alertWillDisappear = YES;
-                         
-                         // 向上移动消失。
-                         alertFrame.origin.y = -topHight.alertViewH;
-                         weakSelf.frame = alertFrame;
-                     }
-                     completion:^(BOOL finished) {
-                         
-                         if (finished) {
-                             // 从父视图中移除。
-                             if (weakSelf.iconView) {
-                                 [weakSelf.iconView removeFromSuperview];
-                             }
-                             [weakSelf.contentLable removeFromSuperview];
-                             [weakSelf removeFromSuperview];
-                         }
-                     }];
+    // 记录高度
+    topHight.navigationH = vc.navigationBar.frame.size.height;
+    topHight.statusbarH = [[UIApplication sharedApplication] statusBarFrame].size.height;
+    topHight.alertViewH = topHight.navigationH + topHight.statusbarH;
 }
 
 #pragma mark - GestureRecognizer
@@ -203,7 +208,7 @@ struct {
 - (void)addGestureRecognizer {
     
     // 点击立刻消失
-    UITapGestureRecognizer *tapGestRec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(alertDisappear)];
+    UITapGestureRecognizer *tapGestRec = [[UITapGestureRecognizer alloc] initWithTarget:self.class action:@selector(alertDisappear)];
     
     // 向上滑动消失
     UISwipeGestureRecognizer *swipeGestRec = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(alertDisappear)];
@@ -214,6 +219,48 @@ struct {
     // 添加手势。
     [self addGestureRecognizer:tapGestRec];
     [self addGestureRecognizer:swipeGestRec];
+}
+
+#pragma mark - Lazy Loading
+- (UILabel *)contentLable {
+    if (!_contentLable) {
+        _contentLable = [[UILabel alloc] init];
+        _contentLable.textAlignment = NSTextAlignmentCenter;
+        
+        [self addSubview:_contentLable];
+        
+        [_contentLable mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(topHight.statusbarH);
+            make.left.equalTo(self.mas_left);
+            make.right.equalTo(self.mas_right);
+            make.bottom.equalTo(self.mas_bottom);
+        }];
+    }
+    return _contentLable;
+}
+
+- (UIImageView *)iconView {
+    if (!_iconView) {
+        _iconView = [[UIImageView alloc] init];
+        _iconView.contentMode = UIViewContentModeScaleAspectFit;
+        
+        [self addSubview:_iconView];
+        
+        [_iconView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.mas_left).offset(10);
+            make.centerY.equalTo(self.mas_centerY);
+        }];
+    }
+    return _iconView;
+}
+
+- (dispatch_block_t)disappearBlock {
+    if (!_disappearBlock) {
+        _disappearBlock = dispatch_block_create(0, ^{
+            [self alertDisappearAutomatically];
+        });
+    }
+    return _disappearBlock;
 }
 
 @end

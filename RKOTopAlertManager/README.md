@@ -1,9 +1,9 @@
 # RKOTopAlert
 
 <p align="center">
-<a href=""><img src="https://img.shields.io/badge/pod-v1.0.5-brightgreen.svg"></a>
+<a href=""><img src="https://img.shields.io/badge/pod-v1.1.0-brightgreen.svg"></a>
 <a href=""><img src="https://img.shields.io/badge/ObjectiveC-compatible-orange.svg"></a>
-<a href=""><img src="https://img.shields.io/badge/platform-iOS%207.0%2B-ff69b5152950834.svg"></a>
+<a href=""><img src="https://img.shields.io/badge/platform-iOS%209.0%2B-ff69b5152950834.svg"></a>
 <a href="https://github.com/rakuyoMo/RKOTools/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg?style=flat"></a>
 </p>
 
@@ -11,7 +11,9 @@
 
 自定义一个顶端的`Alert`提示窗。弹出时从顶端向下移动。（**在iPhone X下可用**）
 
-随仓库配套了一个简单的 **演示Demo**，方便大家使用参考。
+集成了 `Masonry` 来做自动布局，支持横屏。
+
+随仓库配套了一个简单的 **演示Demo**，方便大家使用参考，使用时请先更新 `pod`。
 
 可以设置**提示文字**、**文字颜色**、**背景颜色**、**提醒图标**。
 
@@ -27,12 +29,12 @@
 
 ## 已知问题
 
-该控件还**未做自动布局**，故在横屏下会出现问题。
+
 
 ## 集成
 
 ```shell
- pod 'RKOTopAlert', '~> 1.0.5'
+ pod 'RKOTopAlert', '~> 1.1.0'
 ```
 
 ## 使用
@@ -40,8 +42,11 @@
 使用下面的方法创建一个`Alert`视图，对`Alert`视图调用 `alertAppearWithDuration` 并设置时候，即可弹出 `Alert`视图。
 
 ```objc
-RKOTopAlert *topAlert = [RKOTopAlert alertViewWithText:@"提示文字" textColor:[UIColor whiteColor] backgroundColor:[UIColor redColor] iconImageName:nil];
-    
+RKOTopAlert *topAlert = [RKOTopAlert alertViewWithText:@"单独设置提示文字"
+                                                 textColor:[UIColor whiteColor]
+                                           backgroundColor:[UIColor redColor]
+                                             iconImageName:nil
+                                                      font:[UIFont systemFontOfSize:15.0f]];
 [topAlert alertAppearWithDuration:2.0];
 ```
 
@@ -53,7 +58,11 @@ RKOTopAlert *topAlert = [RKOTopAlert alertViewWithText:@"提示文字" textColor
 
 // 懒加载属性，创建对象并设置样式。
 - (RKOTopAlert *)topAlert {
-    return [RKOTopAlert alertViewWithText:@"在AppDelegate中总体设置" textColor:[UIColor blackColor] backgroundColor:[UIColor orangeColor] iconImageName:nil];
+    return [RKOTopAlert alertViewWithText:@"在AppDelegate中总体设置"
+                                textColor:[UIColor blackColor]
+                          backgroundColor:[UIColor orangeColor]
+                            iconImageName:nil
+                                     font:[UIFont systemFontOfSize:15.0f]];
 }
 
 // 在按钮方法或其它方法中，获取属性调用弹出方法。
@@ -74,12 +83,14 @@ RKOTopAlert *topAlert = [RKOTopAlert alertViewWithText:@"提示文字" textColor
  * @param textColor 文字颜色。
  * @param backgroundColor 提示窗背景颜色。
  * @param iconImageName 左侧提示图标的图片名。
+ * @param font 文字字体
  * @return 调用对象本身
  */
 + (instancetype)alertViewWithText:(NSString *)text
                         textColor:(UIColor *)textColor
                   backgroundColor:(UIColor *)backgroundColor
-                    iconImageName:(nullable NSString *)iconImageName;
+                    iconImageName:(nullable NSString *)iconImageName
+                             font:(UIFont *)font;
 ```
 
 此外，我们分别提供了弹窗弹窗的**弹出**方法与**消失**方法，方便您动态地控制弹窗的弹出与消失：
