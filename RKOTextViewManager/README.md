@@ -69,7 +69,8 @@ textViewWithCode.needBorder = YES;
 
 ```objc
 /**
- * 快速创建对象并设置其样式。（若您使用纯代码方式，推荐使用该方法。）
+ * 快速创建对象并设置其样式。
+ *（若您使用纯代码且不使用自动布局，那么推荐使用该方法。）
  *
  * @param frame 视图大小及位置（若您需要自适应视图的高度，请在高度处填 0 ）
  * @param placeholder 占位符文字
@@ -92,10 +93,16 @@ textViewWithCode.needBorder = YES;
 若您的项目使用`StoryBoard`或者`Xib`方式构建`View`，那么我建议您在**属性面板**中使用我们提供的如下属性，直接设置样式：
 
 ```objc
-/** 占位符文字。 */
-@property (nonatomic, copy, nullable) IBInspectable NSString * placeholder;
+/**
+ *  占位符文字。
+ *  请注意，先设置 TextView 的 text，再设置 placeholder
+ */
+@property (nonatomic, copy, nullable) IBInspectable NSString *placeholder;
 
-/** 开启该属性后，在达到最大行数时将无法进行输入。（优先级于最大字符数，但要同时设置最大行数） */
+/**
+ *  开启该属性后，在达到最大行数时将无法进行输入。
+ *  （优先级于最大字符数，但要同时设置最大行数）
+ */
 @property (nonatomic, assign) IBInspectable BOOL limitInputRange;
 
 /** 可输入的最大字符数（优先于最大行数）。 */
@@ -108,7 +115,7 @@ textViewWithCode.needBorder = YES;
 @property (nonatomic, assign) IBInspectable BOOL needBorder;
 ```
 
-如果您需要在达到 **最大字数** 或 **最大行数** 后进行操作的话，可以实现下面两个 `RKOTextViewDelegate` 协议方法：
+如果您需要在达到 **最大字数** 或 **最大行数** 后进行操作的话，可以设置 `rko_textViewDelegate` 代理，并实现下面两个 `RKOTextViewDelegate` 协议方法：
 
 ```objc
 /** 当达到 最大行数 时的代理方法。 */
